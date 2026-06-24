@@ -1,0 +1,877 @@
+openapi: "3.1.2"
+info:
+  title: komodo-auth-api
+  version: "0.1.0"
+  description: |
+    OAuth 2.0 authorization server. Issues and validates RS256 JWTs.
+
+    **Two servers:**
+    - Public (7011): client-facing OAuth endpoints + JWKS
+    - Internal (7012): token validation and client registry for service-to-service calls
+
+    **HTTP conventions:**
+    - POST → 201 Created / 400 Bad Request / 409 Conflict
+    - PUT → 200 OK / 404 Not Found
+    - DELETE → 204 No Content / 404 Not Found
+    - GET → 200 OK / 404 Not Found
+
+servers:
+  - url: http://localhost:7011
+    description: Public (local)
+  - url: http://localhost:7012
+    description: Internal (local)
+
+tags:
+  - name: Health
+  - name: OAuth
+  - name: OTP
+  - name: Passkeys
+  - name: JWKS
+  - name: Internal
+  - name: Public
+    description: Endpoints served on the public port (7011) — accessible by browsers and external clients
+  - name: Private
+    description: Endpoints served on the internal port (7012) — service-to-service only, not reachable from the public internet
+
+paths:
+  /health:
+    get:
+      tags: [Health, Public]
+      summary: Liveness check
+      operationId: healthCheck
+      security: []
+      responses:
+        "200":
+          description: Service is healthy
+
+  /.well-known/jwks.json:
+    get:
+      tags: [JWKS, Public]
+      summary: JSON Web Key Set — public keys for JWT verification
+      operationId: getJWKS
+      security: []
+      responses:
+        "200":
+          description: JWKS document
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JWKS"
+
+  /v1/oauth/token:
+    post:
+      tags: [OAuth, Public]
+      summary: Issue an access token
+      description: |
+        Supports `client_credentials` and `refresh_token` grant types.
+        `authorization_code` grant type also accepted when `code` and `redirectUri` are present.
+      operationId: issueToken
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TokenRequest"
+      responses:
+        "200":
+          description: Token issued
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /v1/oauth/authorize:
+    get:
+      tags: [OAuth, Public]
+      summary: Authorization endpoint (authorization_code flow)
+      operationId: authorize
+      security: []
+      parameters:
+        - name: response_type
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [code]
+        - name: client_id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: redirect_uri
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+        - name: scope
+          in: query
+          schema:
+            type: string
+        - name: state
+          in: query
+          schema:
+            type: string
+        - name: code_challenge
+          in: query
+          schema:
+            type: string
+            description: PKCE code challenge — BASE64URL(SHA256(code_verifier)); required for public/browser clients (RFC 7636)
+        - name: code_challenge_method
+          in: query
+          schema:
+            type: string
+            enum: [S256]
+            description: PKCE challenge method — only S256 is accepted
+      responses:
+        "302":
+          description: Redirect to client with authorization code
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+  /v1/oauth/revoke:
+    post:
+      tags: [OAuth, Public]
+      summary: Revoke a token
+      operationId: revokeToken
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RevokeRequest"
+      responses:
+        "200":
+          description: Token revoked (always 200 per RFC 7009 — no error if token is already invalid)
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /v1/otp/request:
+    post:
+      tags: [OTP, Public]
+      summary: Request a one-time password (passwordless login / email verification)
+      operationId: requestOTP
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OTPRequest"
+      responses:
+        "200":
+          description: OTP sent — response is always 200 regardless of whether the email exists (prevents enumeration)
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+  /v1/otp/verify:
+    post:
+      tags: [OTP, Public]
+      summary: Verify a one-time password and issue a short-lived token
+      operationId: verifyOTP
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OTPVerifyRequest"
+      responses:
+        "200":
+          description: OTP valid — returns a short-lived JWT or session token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /v1/passkeys/register/begin:
+    post:
+      tags: [Passkeys, Public]
+      summary: Begin a passkey registration ceremony
+      description: |
+        Returns WebAuthn `CredentialCreationOptions` (the `navigator.credentials.create()` argument)
+        for the authenticated user. Requires a valid user access token (OTP-verified is sufficient).
+      operationId: beginPasskeyRegistration
+      security:
+        - UserJWT: []
+      responses:
+        "200":
+          description: Credential creation options
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CredentialCreationOptionsResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /v1/passkeys/register/complete:
+    post:
+      tags: [Passkeys, Public]
+      summary: Complete a passkey registration ceremony
+      description: |
+        Accepts the browser's `navigator.credentials.create()` result (WebAuthn
+        `CredentialCreationResponse` / attestation) and, on success, persists the new credential.
+        Requires the same valid user access token as `register/begin`.
+      operationId: completePasskeyRegistration
+      security:
+        - UserJWT: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CredentialCreationResponseBody"
+      responses:
+        "201":
+          description: Passkey registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasskeyRegisteredResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /v1/passkeys/login/begin:
+    post:
+      tags: [Passkeys, Public]
+      summary: Begin a passkey login (assertion) ceremony
+      description: |
+        Email-first login (ADR 002 §3): looks up the email's registered credentials and returns
+        WebAuthn `CredentialAssertionOptions` (the `navigator.credentials.get()` argument) with
+        `allowCredentials` populated and user verification required. Public, no auth.
+      operationId: beginPasskeyLogin
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasskeyLoginBeginRequest"
+      responses:
+        "200":
+          description: Credential assertion options
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CredentialAssertionOptionsResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+  /v1/passkeys/login/complete:
+    post:
+      tags: [Passkeys, Public]
+      summary: Complete a passkey login (assertion) ceremony
+      description: |
+        Accepts the browser's `navigator.credentials.get()` result (WebAuthn
+        `CredentialAssertionResponse` / assertion) and, on successful verification, issues the
+        standard user access + refresh token pair with scope `passkey:verified`. Public, no auth.
+      operationId: completePasskeyLogin
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CredentialAssertionResponseBody"
+      responses:
+        "200":
+          description: Token issued
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  # ── Internal ────────────────────────────────────────────────────────────────
+  # Served on port 7012. VPC/IAM is the primary access control layer.
+
+  /v1/oauth/introspect:
+    post:
+      tags: [Internal, Private]
+      summary: Introspect a token (requires client credentials)
+      operationId: introspectToken
+      security:
+        - ClientJWT: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IntrospectRequest"
+      responses:
+        "200":
+          description: Introspection result — active:false for expired, revoked, or unknown tokens
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IntrospectResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /v1/token/validate:
+    post:
+      tags: [Internal, Private]
+      summary: Validate and decode a JWT (service-to-service)
+      description: |
+        Used by other services to validate tokens without implementing JWT verification themselves.
+        No client JWT required — VPC access is the control.
+        Requiring auth here would create a circular dependency.
+      operationId: validateToken
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ValidateRequest"
+      responses:
+        "200":
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidateResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+  /v1/clients:
+    get:
+      tags: [Internal, Private]
+      summary: List all registered OAuth clients
+      operationId: listClients
+      security: []
+      responses:
+        "200":
+          description: Client list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RegisteredClient"
+
+  /v1/clients/{id}:
+    get:
+      tags: [Internal, Private]
+      summary: Get a registered client by ID
+      operationId: getClient
+      security: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Client details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisteredClient"
+        "404":
+          $ref: "#/components/responses/NotFound"
+
+components:
+  securitySchemes:
+    ClientJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Service/client JWT — required for introspect
+
+    UserJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: User access token (OTP-verified or passkey-issued) — required for passkey registration
+
+  schemas:
+    TokenRequest:
+      type: object
+      # Field names follow RFC 6749 (snake_case). The endpoint accepts both
+      # application/x-www-form-urlencoded (per the OAuth2 spec, as sent by the SDK's
+      # WithServiceAuth) and application/json with the same field names.
+      required: [client_id, client_secret, grant_type]
+      properties:
+        client_id:
+          type: string
+        client_secret:
+          type: string
+        grant_type:
+          type: string
+          enum: [client_credentials, refresh_token, authorization_code]
+        scope:
+          type: string
+        refresh_token:
+          type: string
+          description: Required for refresh_token grant
+        code:
+          type: string
+          description: Required for authorization_code grant
+        redirect_uri:
+          type: string
+          description: Required for authorization_code grant
+        code_verifier:
+          type: string
+          description: PKCE code verifier — required when code_challenge was used in the authorization request (RFC 7636)
+
+    TokenResponse:
+      type: object
+      # RFC 6749 §5.1 token response (snake_case).
+      required: [access_token, token_type, expires_in]
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          example: Bearer
+        expires_in:
+          type: integer
+          description: Seconds until token expires
+        refresh_token:
+          type: string
+        scope:
+          type: string
+
+    OTPRequest:
+      type: object
+      required: [email]
+      properties:
+        email:
+          type: string
+          format: email
+
+    OTPVerifyRequest:
+      type: object
+      required: [email, code]
+      properties:
+        email:
+          type: string
+          format: email
+        code:
+          type: string
+          description: The OTP code delivered to the user
+
+    IntrospectRequest:
+      type: object
+      required: [token]
+      properties:
+        token:
+          type: string
+
+    IntrospectResponse:
+      type: object
+      required: [active]
+      properties:
+        active:
+          type: boolean
+        scope:
+          type: string
+        client_id:
+          type: string
+        token_type:
+          type: string
+        exp:
+          type: integer
+          format: int64
+        iat:
+          type: integer
+          format: int64
+        sub:
+          type: string
+        aud:
+          type: string
+
+    RevokeRequest:
+      type: object
+      required: [token]
+      properties:
+        token:
+          type: string
+        token_type_hint:
+          type: string
+          enum: [access_token, refresh_token]
+        client_id:
+          type: string
+          description: Client ID — alternative to HTTP Basic authentication (RFC 7009 §2.1)
+        client_secret:
+          type: string
+          description: Client secret — alternative to HTTP Basic authentication (RFC 7009 §2.1)
+
+    JWK:
+      type: object
+      required: [kty, use, kid, alg, n, e]
+      properties:
+        kty:
+          type: string
+          example: RSA
+        use:
+          type: string
+          example: sig
+        kid:
+          type: string
+        alg:
+          type: string
+          example: RS256
+        n:
+          type: string
+          description: RSA modulus (base64url)
+        e:
+          type: string
+          description: RSA exponent (base64url)
+
+    JWKS:
+      type: object
+      required: [keys]
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: "#/components/schemas/JWK"
+
+    RegisteredClient:
+      type: object
+      description: Public view of an OAuth client — secret is never included
+      required: [client_id, name, allowed_scopes]
+      properties:
+        client_id:
+          type: string
+        name:
+          type: string
+        allowed_scopes:
+          type: array
+          items:
+            type: string
+
+    ValidateRequest:
+      type: object
+      required: [token]
+      properties:
+        token:
+          type: string
+
+    ValidateResponse:
+      type: object
+      required: [valid]
+      properties:
+        valid:
+          type: boolean
+        sub:
+          type: string
+          description: Token subject (user ID or service ID)
+        scopes:
+          type: array
+          items:
+            type: string
+        error:
+          type: string
+          description: Present when valid is false
+
+    PasskeyLoginBeginRequest:
+      type: object
+      required: [email, client_id]
+      properties:
+        email:
+          type: string
+          format: email
+        client_id:
+          type: string
+          description: OAuth client ID of the BFF/confidential client initiating the login
+
+    PasskeyRegisteredResponse:
+      type: object
+      required: [credential_id, created_at]
+      properties:
+        credential_id:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded credential ID
+        created_at:
+          type: string
+          format: date-time
+
+    RelyingPartyEntity:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+
+    UserEntity:
+      type: object
+      required: [id, name, displayName]
+      properties:
+        id:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded user handle
+        name:
+          type: string
+        displayName:
+          type: string
+
+    CredentialParameter:
+      type: object
+      required: [type, alg]
+      properties:
+        type:
+          type: string
+          example: public-key
+        alg:
+          type: integer
+          description: COSE algorithm identifier (-7 = ES256, -257 = RS256)
+
+    AuthenticatorSelection:
+      type: object
+      properties:
+        authenticatorAttachment:
+          type: string
+        residentKey:
+          type: string
+          example: preferred
+        requireResidentKey:
+          type: boolean
+        userVerification:
+          type: string
+          example: required
+
+    CredentialDescriptor:
+      type: object
+      required: [type, id]
+      properties:
+        type:
+          type: string
+          example: public-key
+        id:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded credential ID
+        transports:
+          type: array
+          items:
+            type: string
+
+    PublicKeyCredentialCreationOptions:
+      type: object
+      required: [rp, user, challenge]
+      properties:
+        rp:
+          $ref: "#/components/schemas/RelyingPartyEntity"
+        user:
+          $ref: "#/components/schemas/UserEntity"
+        challenge:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded challenge
+        pubKeyCredParams:
+          type: array
+          items:
+            $ref: "#/components/schemas/CredentialParameter"
+        timeout:
+          type: integer
+        excludeCredentials:
+          type: array
+          items:
+            $ref: "#/components/schemas/CredentialDescriptor"
+        authenticatorSelection:
+          $ref: "#/components/schemas/AuthenticatorSelection"
+        attestation:
+          type: string
+          example: none
+        extensions:
+          type: object
+          additionalProperties: true
+
+    PublicKeyCredentialRequestOptions:
+      type: object
+      required: [challenge]
+      properties:
+        challenge:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded challenge
+        timeout:
+          type: integer
+        rpId:
+          type: string
+        allowCredentials:
+          type: array
+          items:
+            $ref: "#/components/schemas/CredentialDescriptor"
+        userVerification:
+          type: string
+          example: required
+        extensions:
+          type: object
+          additionalProperties: true
+
+    CredentialCreationOptionsResponse:
+      type: object
+      required: [publicKey]
+      properties:
+        publicKey:
+          $ref: "#/components/schemas/PublicKeyCredentialCreationOptions"
+        mediation:
+          type: string
+
+    CredentialAssertionOptionsResponse:
+      type: object
+      required: [publicKey]
+      properties:
+        publicKey:
+          $ref: "#/components/schemas/PublicKeyCredentialRequestOptions"
+        mediation:
+          type: string
+
+    AuthenticatorAttestationResponse:
+      type: object
+      required: [clientDataJSON, attestationObject]
+      properties:
+        clientDataJSON:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded JSON
+        attestationObject:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded CBOR attestation object
+        transports:
+          type: array
+          items:
+            type: string
+        authenticatorData:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded authenticator data
+
+    AuthenticatorAssertionResponse:
+      type: object
+      required: [clientDataJSON, authenticatorData, signature]
+      properties:
+        clientDataJSON:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded JSON
+        authenticatorData:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded authenticator data
+        signature:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded signature
+        userHandle:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded user handle
+
+    CredentialCreationResponseBody:
+      type: object
+      required: [id, type, rawId, response]
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          example: public-key
+        rawId:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded credential ID
+        authenticatorAttachment:
+          type: string
+        clientExtensionResults:
+          type: object
+          additionalProperties: true
+        response:
+          $ref: "#/components/schemas/AuthenticatorAttestationResponse"
+
+    CredentialAssertionResponseBody:
+      type: object
+      required: [id, type, rawId, response]
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          example: public-key
+        rawId:
+          type: string
+          contentEncoding: base64url
+          description: Base64url-encoded credential ID
+        authenticatorAttachment:
+          type: string
+        clientExtensionResults:
+          type: object
+          additionalProperties: true
+        response:
+          $ref: "#/components/schemas/AuthenticatorAssertionResponse"
+
+    Problem:
+      type: object
+      description: RFC 7807 Problem+JSON
+      required: [type, title, status]
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string
+
+  responses:
+    BadRequest:
+      description: Invalid request body or parameters
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Unauthorized:
+      description: Missing or invalid credentials
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Forbidden:
+      description: Valid credentials but insufficient permissions
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    NotFound:
+      description: Resource not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"

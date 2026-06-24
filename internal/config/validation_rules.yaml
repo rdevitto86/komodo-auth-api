@@ -1,0 +1,128 @@
+#  ____        _        ____             __ _
+# |  _ \ _   _| | ___  / ___|___  _ __  / _(_) __ _
+# | |_) | | | | |/ _ \| |   / _ \| '_ \| |_| |/ _` |
+# |  _ <| |_| | |  __/| |__| (_) | | | |  _| | (_| |
+# |_| \_\\__,_|_|\___| \____\___/|_| |_|_| |_|\__, |
+#                                              |___/
+#
+# Validation Levels:
+#   ignore  — skip all validation
+#   lenient — validate declared constraints; missing API version is allowed
+#   strict  — version header required; all declared constraints enforced
+
+rules:
+  # ---------------------------------------------------------------------------
+  # Health
+  # ---------------------------------------------------------------------------
+  "/health":
+    GET:
+      level: "ignore"
+
+  # ---------------------------------------------------------------------------
+  # JWKS — public key set
+  # ---------------------------------------------------------------------------
+  "/.well-known/jwks.json":
+    GET:
+      level: "ignore"
+
+  # ---------------------------------------------------------------------------
+  # OAuth — token issuance (public, no auth)
+  # ---------------------------------------------------------------------------
+  "/oauth/token":
+    POST:
+      level: "ignore"
+
+  # ---------------------------------------------------------------------------
+  # OAuth — authorization
+  # ---------------------------------------------------------------------------
+  "/oauth/authorize":
+    GET:
+      level: "lenient"
+
+  # ---------------------------------------------------------------------------
+  # OAuth — token revocation (public)
+  # ---------------------------------------------------------------------------
+  "/oauth/revoke":
+    POST:
+      level: "lenient"
+      headers:
+        Content-Type:
+          required: true
+          value: "application/json"
+      body:
+        token:
+          type: "string"
+          required: true
+
+  # ---------------------------------------------------------------------------
+  # OTP — passwordless login / email verification
+  # ---------------------------------------------------------------------------
+  "/otp/request":
+    POST:
+      level: "lenient"
+      headers:
+        Content-Type:
+          required: true
+          value: "application/json"
+      body:
+        email:
+          type: "string"
+          required: true
+          max_len: 254
+
+  "/otp/verify":
+    POST:
+      level: "lenient"
+      headers:
+        Content-Type:
+          required: true
+          value: "application/json"
+      body:
+        email:
+          type: "string"
+          required: true
+          max_len: 254
+        code:
+          type: "string"
+          required: true
+          pattern: "^[0-9]{6}$"
+
+  # ---------------------------------------------------------------------------
+  # Passkeys — WebAuthn ceremonies
+  # ---------------------------------------------------------------------------
+  "/passkeys/register/begin":
+    POST:
+      level: "lenient"
+      headers:
+        Content-Type:
+          required: true
+          value: "application/json"
+
+  "/passkeys/register/complete":
+    POST:
+      level: "lenient"
+      headers:
+        Content-Type:
+          required: true
+          value: "application/json"
+
+  "/passkeys/login/begin":
+    POST:
+      level: "lenient"
+      headers:
+        Content-Type:
+          required: true
+          value: "application/json"
+      body:
+        email:
+          type: "string"
+          required: true
+          max_len: 254
+
+  "/passkeys/login/complete":
+    POST:
+      level: "lenient"
+      headers:
+        Content-Type:
+          required: true
+          value: "application/json"

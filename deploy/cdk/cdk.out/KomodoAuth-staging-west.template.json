@@ -1,0 +1,2325 @@
+{
+ "Resources": {
+  "ecskomodoauthapistagingE4C35C61": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/ecs/komodo-auth-api-staging",
+    "RetentionInDays": 30,
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/--ecs--komodo-auth-api-staging/Resource"
+   }
+  },
+  "ClusterEB0386A7": {
+   "Type": "AWS::ECS::Cluster",
+   "Properties": {
+    "ClusterName": "komodo-auth-api-staging",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Cluster/Resource"
+   }
+  },
+  "PublicAlbSG0EB56BFF": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "ALB ingress",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "from 0.0.0.0/0:80",
+      "FromPort": 80,
+      "IpProtocol": "tcp",
+      "ToPort": 80
+     },
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "from 0.0.0.0/0:443",
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "VpcId": "vpc-12345"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/AlbSG/Resource"
+   }
+  },
+  "PublicTaskSGC225DD54": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Fargate task",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "VpcId": "vpc-12345"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/TaskSG/Resource"
+   }
+  },
+  "PublicTaskSGfromKomodoAuthstagingwestPublicAlbSGB0FDE99C7011531D84CE": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "from KomodoAuthstagingwestPublicAlbSGB0FDE99C:7011",
+    "FromPort": 7011,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "PublicTaskSGC225DD54",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "PublicAlbSG0EB56BFF",
+      "GroupId"
+     ]
+    },
+    "ToPort": 7011
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/TaskSG/from KomodoAuthstagingwestPublicAlbSGB0FDE99C:7011"
+   }
+  },
+  "PublicTaskDefTaskRole620EEC0A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/TaskDef/TaskRole/Resource"
+   }
+  },
+  "PublicTaskDefTaskRoleDefaultPolicy730A9B9B": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":secretsmanager:us-west-2:123456789012:secret:komodo/staging/auth-api-??????"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:us-west-2:123456789012:table/komodo-banned-customers-stg"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:us-west-2:123456789012:table/komodo-banned-customers-stg"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "PublicTaskDefTaskRoleDefaultPolicy730A9B9B",
+    "Roles": [
+     {
+      "Ref": "PublicTaskDefTaskRole620EEC0A"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/TaskDef/TaskRole/DefaultPolicy/Resource"
+   }
+  },
+  "PublicTaskDef6541CF83": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "APP_NAME",
+        "Value": "komodo-auth-api"
+       },
+       {
+        "Name": "PORT",
+        "Value": ":7011"
+       },
+       {
+        "Name": "VERSION",
+        "Value": "latest"
+       },
+       {
+        "Name": "EVAL_RULES_PATH",
+        "Value": "/app/config/validation_rules.yaml"
+       },
+       {
+        "Name": "AWS_REGION",
+        "Value": "us-east-2"
+       },
+       {
+        "Name": "BANNED_CUSTOMERS_TABLE",
+        "Value": "komodo-banned-customers-stg"
+       },
+       {
+        "Name": "USER_API_PRIVATE_URL",
+        "Value": "http://user-api-public.komodo-stg.local:7052"
+       },
+       {
+        "Name": "COMMUNICATIONS_API_URL",
+        "Value": "http://communications-api.komodo-stg.local:7081"
+       },
+       {
+        "Name": "AWS_SECRET_PATH",
+        "Value": "komodo/staging/auth-api"
+       }
+      ],
+      "Essential": true,
+      "HealthCheck": {
+       "Command": [
+        "CMD",
+        "/komodo",
+        "-healthcheck"
+       ],
+       "Interval": 30,
+       "Retries": 3,
+       "StartPeriod": 10,
+       "Timeout": 5
+      },
+      "Image": {
+       "Fn::Join": [
+        "",
+        [
+         "123456789012.dkr.ecr.us-west-2.",
+         {
+          "Ref": "AWS::URLSuffix"
+         },
+         "/komodo-auth-api-public:latest"
+        ]
+       ]
+      },
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "ecskomodoauthapistagingE4C35C61"
+        },
+        "awslogs-stream-prefix": "public",
+        "awslogs-region": "us-west-2"
+       }
+      },
+      "Name": "komodo-auth-api-public-staging",
+      "PortMappings": [
+       {
+        "ContainerPort": 7011,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "512",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "PublicTaskDefExecutionRole2ADF7BEF",
+      "Arn"
+     ]
+    },
+    "Family": "KomodoAuthstagingwestPublicTaskDefE696CA5B",
+    "Memory": "1024",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "PublicTaskDefTaskRole620EEC0A",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/TaskDef/Resource"
+   }
+  },
+  "PublicTaskDefExecutionRole2ADF7BEF": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/TaskDef/ExecutionRole/Resource"
+   }
+  },
+  "PublicTaskDefExecutionRoleDefaultPolicy9C764E12": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":ecr:us-west-2:123456789012:repository/komodo-auth-api-public"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ecskomodoauthapistagingE4C35C61",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "PublicTaskDefExecutionRoleDefaultPolicy9C764E12",
+    "Roles": [
+     {
+      "Ref": "PublicTaskDefExecutionRole2ADF7BEF"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/TaskDef/ExecutionRole/DefaultPolicy/Resource"
+   }
+  },
+  "PublicServiceA1BECAD3": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": {
+     "Ref": "ClusterEB0386A7"
+    },
+    "DeploymentConfiguration": {
+     "Alarms": {
+      "AlarmNames": [],
+      "Enable": false,
+      "Rollback": false
+     },
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "DesiredCount": 1,
+    "EnableECSManagedTags": false,
+    "HealthCheckGracePeriodSeconds": 60,
+    "LaunchType": "FARGATE",
+    "LoadBalancers": [
+     {
+      "ContainerName": "komodo-auth-api-public-staging",
+      "ContainerPort": 7011,
+      "TargetGroupArn": {
+       "Ref": "PublicALBHttpsListenerTargetGroupB3A31D6D"
+      }
+     }
+    ],
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "DISABLED",
+      "SecurityGroups": [
+       {
+        "Fn::GetAtt": [
+         "PublicTaskSGC225DD54",
+         "GroupId"
+        ]
+       }
+      ],
+      "Subnets": [
+       "p-12345",
+       "p-67890"
+      ]
+     }
+    },
+    "ServiceName": "komodo-auth-api-public-staging",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "TaskDefinition": {
+     "Ref": "PublicTaskDef6541CF83"
+    }
+   },
+   "DependsOn": [
+    "PublicALBHttpsListener50656E21",
+    "PublicALBHttpsListenerTargetGroupB3A31D6D",
+    "PublicTaskDefTaskRoleDefaultPolicy730A9B9B",
+    "PublicTaskDefTaskRole620EEC0A"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/Service/Service"
+   }
+  },
+  "PublicServiceTaskCountTarget060D5623": {
+   "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+   "Properties": {
+    "MaxCapacity": 3,
+    "MinCapacity": 1,
+    "ResourceId": {
+     "Fn::Join": [
+      "",
+      [
+       "service/",
+       {
+        "Ref": "ClusterEB0386A7"
+       },
+       "/",
+       {
+        "Fn::GetAtt": [
+         "PublicServiceA1BECAD3",
+         "Name"
+        ]
+       }
+      ]
+     ]
+    },
+    "RoleARN": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::123456789012:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+      ]
+     ]
+    },
+    "ScalableDimension": "ecs:service:DesiredCount",
+    "ServiceNamespace": "ecs"
+   },
+   "DependsOn": [
+    "PublicTaskDefTaskRoleDefaultPolicy730A9B9B",
+    "PublicTaskDefTaskRole620EEC0A"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/Service/TaskCount/Target/Resource"
+   }
+  },
+  "PublicServiceTaskCountTargetCpuScaling2F16DDFE": {
+   "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+   "Properties": {
+    "PolicyName": "KomodoAuthstagingwestPublicServiceTaskCountTargetCpuScalingA0138276",
+    "PolicyType": "TargetTrackingScaling",
+    "ScalingTargetId": {
+     "Ref": "PublicServiceTaskCountTarget060D5623"
+    },
+    "TargetTrackingScalingPolicyConfiguration": {
+     "PredefinedMetricSpecification": {
+      "PredefinedMetricType": "ECSServiceAverageCPUUtilization"
+     },
+     "TargetValue": 70
+    }
+   },
+   "DependsOn": [
+    "PublicTaskDefTaskRoleDefaultPolicy730A9B9B",
+    "PublicTaskDefTaskRole620EEC0A"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/Service/TaskCount/Target/CpuScaling/Resource"
+   }
+  },
+  "PublicCpuHighAlarm2D32CD69": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "ComparisonOperator": "GreaterThanThreshold",
+    "Dimensions": [
+     {
+      "Name": "ClusterName",
+      "Value": {
+       "Ref": "ClusterEB0386A7"
+      }
+     },
+     {
+      "Name": "ServiceName",
+      "Value": {
+       "Fn::GetAtt": [
+        "PublicServiceA1BECAD3",
+        "Name"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 3,
+    "MetricName": "CPUUtilization",
+    "Namespace": "AWS/ECS",
+    "Period": 300,
+    "Statistic": "Average",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "Threshold": 80,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/CpuHighAlarm/Resource"
+   }
+  },
+  "PublicMemoryHighAlarm96338331": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "ComparisonOperator": "GreaterThanThreshold",
+    "Dimensions": [
+     {
+      "Name": "ClusterName",
+      "Value": {
+       "Ref": "ClusterEB0386A7"
+      }
+     },
+     {
+      "Name": "ServiceName",
+      "Value": {
+       "Fn::GetAtt": [
+        "PublicServiceA1BECAD3",
+        "Name"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 3,
+    "MetricName": "MemoryUtilization",
+    "Namespace": "AWS/ECS",
+    "Period": 300,
+    "Statistic": "Average",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "Threshold": 80,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/MemoryHighAlarm/Resource"
+   }
+  },
+  "PublicALB3C3B3014": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     }
+    ],
+    "Scheme": "internet-facing",
+    "SecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "PublicAlbSG0EB56BFF",
+       "GroupId"
+      ]
+     }
+    ],
+    "Subnets": [
+     "s-12345",
+     "s-67890"
+    ],
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "Type": "application"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/ALB/Resource"
+   }
+  },
+  "PublicALBHttpListener88C82863": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "RedirectConfig": {
+       "Port": "443",
+       "Protocol": "HTTPS",
+       "StatusCode": "HTTP_301"
+      },
+      "Type": "redirect"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "PublicALB3C3B3014"
+    },
+    "Port": 80,
+    "Protocol": "HTTP"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/ALB/HttpListener/Resource"
+   }
+  },
+  "PublicALBHttpsListener50656E21": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "Certificates": [
+     {
+      "CertificateArn": "PLACEHOLDER-acm-cert-arn-us-east-2"
+     }
+    ],
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "PublicALBHttpsListenerTargetGroupB3A31D6D"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "PublicALB3C3B3014"
+    },
+    "Port": 443,
+    "Protocol": "HTTPS",
+    "SslPolicy": "ELBSecurityPolicy-TLS13-1-2-2021-06"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/ALB/HttpsListener/Resource"
+   }
+  },
+  "PublicALBHttpsListenerTargetGroupB3A31D6D": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckIntervalSeconds": 30,
+    "HealthCheckPath": "/health",
+    "HealthCheckPort": "7011",
+    "HealthCheckTimeoutSeconds": 5,
+    "Port": 7011,
+    "Protocol": "HTTP",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "TargetGroupAttributes": [
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "VpcId": "vpc-12345"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/ALB/HttpsListener/TargetGroup/Resource"
+   }
+  },
+  "PublicUnhealthyTargetsAlarm7B395194": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "ComparisonOperator": "GreaterThanThreshold",
+    "Dimensions": [
+     {
+      "Name": "LoadBalancer",
+      "Value": {
+       "Ref": "PublicALB3C3B3014"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "UnHealthyHostCount",
+    "Namespace": "AWS/ApplicationELB",
+    "Period": 60,
+    "Statistic": "Average",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "Threshold": 1,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/UnhealthyTargetsAlarm/Resource"
+   }
+  },
+  "PublicHigh5xxErrorAlarm3B85414C": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "ComparisonOperator": "GreaterThanThreshold",
+    "Dimensions": [
+     {
+      "Name": "LoadBalancer",
+      "Value": {
+       "Ref": "PublicALB3C3B3014"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "MetricName": "HTTPCode_Target_5XX",
+    "Namespace": "AWS/ApplicationELB",
+    "Period": 60,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "Threshold": 5,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Public/High5xxErrorAlarm/Resource"
+   }
+  },
+  "PrivateTaskSGC1052C1C": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Fargate task",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "1.2.3.4/5",
+      "Description": "from 1.2.3.4/5:7012",
+      "FromPort": 7012,
+      "IpProtocol": "tcp",
+      "ToPort": 7012
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "VpcId": "vpc-12345"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Private/TaskSG/Resource"
+   }
+  },
+  "PrivateTaskDefTaskRoleF2C08502": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Private/TaskDef/TaskRole/Resource"
+   }
+  },
+  "PrivateTaskDefTaskRoleDefaultPolicy2337BCC2": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":secretsmanager:us-west-2:123456789012:secret:komodo/staging/auth-api-??????"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:us-west-2:123456789012:table/komodo-banned-customers-stg"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":dynamodb:us-west-2:123456789012:table/komodo-banned-customers-stg"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "PrivateTaskDefTaskRoleDefaultPolicy2337BCC2",
+    "Roles": [
+     {
+      "Ref": "PrivateTaskDefTaskRoleF2C08502"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Private/TaskDef/TaskRole/DefaultPolicy/Resource"
+   }
+  },
+  "PrivateTaskDefAFC7406E": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "APP_NAME",
+        "Value": "komodo-auth-api-internal"
+       },
+       {
+        "Name": "PORT_PRIVATE",
+        "Value": ":7012"
+       },
+       {
+        "Name": "VERSION",
+        "Value": "latest"
+       },
+       {
+        "Name": "AWS_REGION",
+        "Value": "us-east-2"
+       },
+       {
+        "Name": "AWS_SECRET_PATH",
+        "Value": "komodo/staging/auth-api"
+       }
+      ],
+      "Essential": true,
+      "HealthCheck": {
+       "Command": [
+        "CMD",
+        "/komodo",
+        "-healthcheck"
+       ],
+       "Interval": 30,
+       "Retries": 3,
+       "StartPeriod": 10,
+       "Timeout": 5
+      },
+      "Image": {
+       "Fn::Join": [
+        "",
+        [
+         "123456789012.dkr.ecr.us-west-2.",
+         {
+          "Ref": "AWS::URLSuffix"
+         },
+         "/komodo-auth-api-private:latest"
+        ]
+       ]
+      },
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "ecskomodoauthapistagingE4C35C61"
+        },
+        "awslogs-stream-prefix": "private",
+        "awslogs-region": "us-west-2"
+       }
+      },
+      "Name": "komodo-auth-api-private-staging",
+      "PortMappings": [
+       {
+        "ContainerPort": 7012,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "512",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "PrivateTaskDefExecutionRole99CAC8C9",
+      "Arn"
+     ]
+    },
+    "Family": "KomodoAuthstagingwestPrivateTaskDef92E55CFD",
+    "Memory": "1024",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "PrivateTaskDefTaskRoleF2C08502",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Private/TaskDef/Resource"
+   }
+  },
+  "PrivateTaskDefExecutionRole99CAC8C9": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Private/TaskDef/ExecutionRole/Resource"
+   }
+  },
+  "PrivateTaskDefExecutionRoleDefaultPolicyE2FB643D": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":ecr:us-west-2:123456789012:repository/komodo-auth-api-private"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ecskomodoauthapistagingE4C35C61",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "PrivateTaskDefExecutionRoleDefaultPolicyE2FB643D",
+    "Roles": [
+     {
+      "Ref": "PrivateTaskDefExecutionRole99CAC8C9"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Private/TaskDef/ExecutionRole/DefaultPolicy/Resource"
+   }
+  },
+  "PrivateServiceF7FD9DCA": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": {
+     "Ref": "ClusterEB0386A7"
+    },
+    "DeploymentConfiguration": {
+     "Alarms": {
+      "AlarmNames": [],
+      "Enable": false,
+      "Rollback": false
+     },
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "DesiredCount": 1,
+    "EnableECSManagedTags": false,
+    "LaunchType": "FARGATE",
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "DISABLED",
+      "SecurityGroups": [
+       {
+        "Fn::GetAtt": [
+         "PrivateTaskSGC1052C1C",
+         "GroupId"
+        ]
+       }
+      ],
+      "Subnets": [
+       "p-12345",
+       "p-67890"
+      ]
+     }
+    },
+    "ServiceName": "komodo-auth-api-private-staging",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "TaskDefinition": {
+     "Ref": "PrivateTaskDefAFC7406E"
+    }
+   },
+   "DependsOn": [
+    "PrivateTaskDefTaskRoleDefaultPolicy2337BCC2",
+    "PrivateTaskDefTaskRoleF2C08502"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Private/Service/Service"
+   }
+  },
+  "PrivateServiceTaskCountTarget040C7C34": {
+   "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+   "Properties": {
+    "MaxCapacity": 3,
+    "MinCapacity": 1,
+    "ResourceId": {
+     "Fn::Join": [
+      "",
+      [
+       "service/",
+       {
+        "Ref": "ClusterEB0386A7"
+       },
+       "/",
+       {
+        "Fn::GetAtt": [
+         "PrivateServiceF7FD9DCA",
+         "Name"
+        ]
+       }
+      ]
+     ]
+    },
+    "RoleARN": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":iam::123456789012:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+      ]
+     ]
+    },
+    "ScalableDimension": "ecs:service:DesiredCount",
+    "ServiceNamespace": "ecs"
+   },
+   "DependsOn": [
+    "PrivateTaskDefTaskRoleDefaultPolicy2337BCC2",
+    "PrivateTaskDefTaskRoleF2C08502"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Private/Service/TaskCount/Target/Resource"
+   }
+  },
+  "PrivateServiceTaskCountTargetCpuScalingD8014F71": {
+   "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+   "Properties": {
+    "PolicyName": "KomodoAuthstagingwestPrivateServiceTaskCountTargetCpuScalingBCF6C2DB",
+    "PolicyType": "TargetTrackingScaling",
+    "ScalingTargetId": {
+     "Ref": "PrivateServiceTaskCountTarget040C7C34"
+    },
+    "TargetTrackingScalingPolicyConfiguration": {
+     "PredefinedMetricSpecification": {
+      "PredefinedMetricType": "ECSServiceAverageCPUUtilization"
+     },
+     "TargetValue": 70
+    }
+   },
+   "DependsOn": [
+    "PrivateTaskDefTaskRoleDefaultPolicy2337BCC2",
+    "PrivateTaskDefTaskRoleF2C08502"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Private/Service/TaskCount/Target/CpuScaling/Resource"
+   }
+  },
+  "PrivateCpuHighAlarm9A4F071A": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "ComparisonOperator": "GreaterThanThreshold",
+    "Dimensions": [
+     {
+      "Name": "ClusterName",
+      "Value": {
+       "Ref": "ClusterEB0386A7"
+      }
+     },
+     {
+      "Name": "ServiceName",
+      "Value": {
+       "Fn::GetAtt": [
+        "PrivateServiceF7FD9DCA",
+        "Name"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 3,
+    "MetricName": "CPUUtilization",
+    "Namespace": "AWS/ECS",
+    "Period": 300,
+    "Statistic": "Average",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "Threshold": 80,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Private/CpuHighAlarm/Resource"
+   }
+  },
+  "PrivateMemoryHighAlarmDEA7E9AC": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "ComparisonOperator": "GreaterThanThreshold",
+    "Dimensions": [
+     {
+      "Name": "ClusterName",
+      "Value": {
+       "Ref": "ClusterEB0386A7"
+      }
+     },
+     {
+      "Name": "ServiceName",
+      "Value": {
+       "Fn::GetAtt": [
+        "PrivateServiceF7FD9DCA",
+        "Name"
+       ]
+      }
+     }
+    ],
+    "EvaluationPeriods": 3,
+    "MetricName": "MemoryUtilization",
+    "Namespace": "AWS/ECS",
+    "Period": 300,
+    "Statistic": "Average",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "Threshold": 80,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Private/MemoryHighAlarm/Resource"
+   }
+  },
+  "WafWebAclBE24253C": {
+   "Type": "AWS::WAFv2::WebACL",
+   "Properties": {
+    "DefaultAction": {
+     "Allow": {}
+    },
+    "Rules": [
+     {
+      "Name": "AWSManagedRulesCommonRuleSet",
+      "OverrideAction": {
+       "None": {}
+      },
+      "Priority": 1,
+      "Statement": {
+       "ManagedRuleGroupStatement": {
+        "Name": "AWSManagedRulesCommonRuleSet",
+        "VendorName": "AWS"
+       }
+      },
+      "VisibilityConfig": {
+       "CloudWatchMetricsEnabled": true,
+       "MetricName": "AWSManagedRulesCommonRuleSet",
+       "SampledRequestsEnabled": true
+      }
+     },
+     {
+      "Name": "AWSManagedRulesKnownBadInputsRuleSet",
+      "OverrideAction": {
+       "None": {}
+      },
+      "Priority": 2,
+      "Statement": {
+       "ManagedRuleGroupStatement": {
+        "Name": "AWSManagedRulesKnownBadInputsRuleSet",
+        "VendorName": "AWS"
+       }
+      },
+      "VisibilityConfig": {
+       "CloudWatchMetricsEnabled": true,
+       "MetricName": "AWSManagedRulesKnownBadInputsRuleSet",
+       "SampledRequestsEnabled": true
+      }
+     },
+     {
+      "Action": {
+       "Block": {}
+      },
+      "Name": "GlobalRateLimit",
+      "Priority": 3,
+      "Statement": {
+       "RateBasedStatement": {
+        "AggregateKeyType": "IP",
+        "Limit": 2000
+       }
+      },
+      "VisibilityConfig": {
+       "CloudWatchMetricsEnabled": true,
+       "MetricName": "GlobalRateLimit",
+       "SampledRequestsEnabled": true
+      }
+     },
+     {
+      "Action": {
+       "Block": {}
+      },
+      "Name": "OtpRateLimit",
+      "Priority": 4,
+      "Statement": {
+       "RateBasedStatement": {
+        "AggregateKeyType": "IP",
+        "Limit": 100,
+        "ScopeDownStatement": {
+         "ByteMatchStatement": {
+          "FieldToMatch": {
+           "UriPath": {}
+          },
+          "PositionalConstraint": "STARTS_WITH",
+          "SearchString": "/v1/otp/",
+          "TextTransformations": [
+           {
+            "Priority": 0,
+            "Type": "NONE"
+           }
+          ]
+         }
+        }
+       }
+      },
+      "VisibilityConfig": {
+       "CloudWatchMetricsEnabled": true,
+       "MetricName": "OtpRateLimit",
+       "SampledRequestsEnabled": true
+      }
+     },
+     {
+      "Action": {
+       "Block": {}
+      },
+      "Name": "PasskeyRateLimit",
+      "Priority": 5,
+      "Statement": {
+       "RateBasedStatement": {
+        "AggregateKeyType": "IP",
+        "Limit": 100,
+        "ScopeDownStatement": {
+         "ByteMatchStatement": {
+          "FieldToMatch": {
+           "UriPath": {}
+          },
+          "PositionalConstraint": "STARTS_WITH",
+          "SearchString": "/v1/passkeys/",
+          "TextTransformations": [
+           {
+            "Priority": 0,
+            "Type": "NONE"
+           }
+          ]
+         }
+        }
+       }
+      },
+      "VisibilityConfig": {
+       "CloudWatchMetricsEnabled": true,
+       "MetricName": "PasskeyRateLimit",
+       "SampledRequestsEnabled": true
+      }
+     }
+    ],
+    "Scope": "REGIONAL",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "VisibilityConfig": {
+     "CloudWatchMetricsEnabled": true,
+     "MetricName": "KomodoAuthWaf",
+     "SampledRequestsEnabled": true
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Waf/WebAcl"
+   }
+  },
+  "WafAlbAssociationA634B2D5": {
+   "Type": "AWS::WAFv2::WebACLAssociation",
+   "Properties": {
+    "ResourceArn": {
+     "Ref": "PublicALB3C3B3014"
+    },
+    "WebACLArn": {
+     "Fn::GetAtt": [
+      "WafWebAclBE24253C",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Waf/AlbAssociation"
+   }
+  },
+  "Issuance5xxFilter80C91E9A": {
+   "Type": "AWS::Logs::MetricFilter",
+   "Properties": {
+    "FilterPattern": "{ $.status >= 500 && ($.path = \"/v1/oauth/token\" || $.path = \"/v1/otp/verify\") }",
+    "LogGroupName": {
+     "Ref": "ecskomodoauthapistagingE4C35C61"
+    },
+    "MetricTransformations": [
+     {
+      "DefaultValue": 0,
+      "MetricName": "Issuance5xxCount",
+      "MetricNamespace": "KomodoAuth",
+      "MetricValue": "1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Issuance5xx/Filter/Resource"
+   }
+  },
+  "Issuance5xxAlarmBE9F142E": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmName": "Issuance5xxAlarm",
+    "ComparisonOperator": "GreaterThanThreshold",
+    "EvaluationPeriods": 1,
+    "MetricName": "Issuance5xxCount",
+    "Namespace": "KomodoAuth",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "Threshold": 10,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/Issuance5xx/Alarm/Resource"
+   }
+  },
+  "OtpAbuseFilter2A5ED72A": {
+   "Type": "AWS::Logs::MetricFilter",
+   "Properties": {
+    "FilterPattern": "{ $.status = 429 && $.path = \"/v1/otp/*\" }",
+    "LogGroupName": {
+     "Ref": "ecskomodoauthapistagingE4C35C61"
+    },
+    "MetricTransformations": [
+     {
+      "DefaultValue": 0,
+      "MetricName": "OtpAbuse429Count",
+      "MetricNamespace": "KomodoAuth",
+      "MetricValue": "1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/OtpAbuse/Filter/Resource"
+   }
+  },
+  "OtpAbuseAlarm9C13F469": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmName": "OtpAbuseAlarm",
+    "ComparisonOperator": "GreaterThanThreshold",
+    "EvaluationPeriods": 1,
+    "MetricName": "OtpAbuse429Count",
+    "Namespace": "KomodoAuth",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "Threshold": 50,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/OtpAbuse/Alarm/Resource"
+   }
+  },
+  "OtpBruteForceFilter09EEEDE7": {
+   "Type": "AWS::Logs::MetricFilter",
+   "Properties": {
+    "FilterPattern": "{ $.status = 401 && $.path = \"/v1/otp/verify\" }",
+    "LogGroupName": {
+     "Ref": "ecskomodoauthapistagingE4C35C61"
+    },
+    "MetricTransformations": [
+     {
+      "DefaultValue": 0,
+      "MetricName": "OtpBruteForce401Count",
+      "MetricNamespace": "KomodoAuth",
+      "MetricValue": "1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/OtpBruteForce/Filter/Resource"
+   }
+  },
+  "OtpBruteForceAlarm02164DDA": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmName": "OtpBruteForceAlarm",
+    "ComparisonOperator": "GreaterThanThreshold",
+    "EvaluationPeriods": 1,
+    "MetricName": "OtpBruteForce401Count",
+    "Namespace": "KomodoAuth",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "Threshold": 100,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/OtpBruteForce/Alarm/Resource"
+   }
+  },
+  "RedisUnreachableFilter88E79139": {
+   "Type": "AWS::Logs::MetricFilter",
+   "Properties": {
+    "FilterPattern": "{ $.msg = \"readiness check failed\" && $.error = \"*failed to reach redis*\" }",
+    "LogGroupName": {
+     "Ref": "ecskomodoauthapistagingE4C35C61"
+    },
+    "MetricTransformations": [
+     {
+      "DefaultValue": 0,
+      "MetricName": "RedisUnreachableCount",
+      "MetricNamespace": "KomodoAuth",
+      "MetricValue": "1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/RedisUnreachable/Filter/Resource"
+   }
+  },
+  "RedisUnreachableAlarm9562D474": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmName": "RedisUnreachableAlarm",
+    "ComparisonOperator": "GreaterThanThreshold",
+    "EvaluationPeriods": 1,
+    "MetricName": "RedisUnreachableCount",
+    "Namespace": "KomodoAuth",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "Threshold": 3,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/RedisUnreachable/Alarm/Resource"
+   }
+  },
+  "JwksUnavailableFilterED863C45": {
+   "Type": "AWS::Logs::MetricFilter",
+   "Properties": {
+    "FilterPattern": "{ $.status >= 500 && $.path = \"/.well-known/jwks.json\" }",
+    "LogGroupName": {
+     "Ref": "ecskomodoauthapistagingE4C35C61"
+    },
+    "MetricTransformations": [
+     {
+      "DefaultValue": 0,
+      "MetricName": "JwksUnavailableCount",
+      "MetricNamespace": "KomodoAuth",
+      "MetricValue": "1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/JwksUnavailable/Filter/Resource"
+   }
+  },
+  "JwksUnavailableAlarm31BD9C1C": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "AlarmName": "JwksUnavailableAlarm",
+    "ComparisonOperator": "GreaterThanThreshold",
+    "EvaluationPeriods": 1,
+    "MetricName": "JwksUnavailableCount",
+    "Namespace": "KomodoAuth",
+    "Period": 300,
+    "Statistic": "Sum",
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "Threshold": 5,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/JwksUnavailable/Alarm/Resource"
+   }
+  },
+  "LatencyP99Alarm14F5CE04": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "ComparisonOperator": "GreaterThanThreshold",
+    "Dimensions": [
+     {
+      "Name": "LoadBalancer",
+      "Value": {
+       "Ref": "PublicALB3C3B3014"
+      }
+     }
+    ],
+    "EvaluationPeriods": 2,
+    "ExtendedStatistic": "p99",
+    "MetricName": "TargetResponseTime",
+    "Namespace": "AWS/ApplicationELB",
+    "Period": 60,
+    "Tags": [
+     {
+      "Key": "dataClassification",
+      "Value": "sensitive"
+     },
+     {
+      "Key": "environment",
+      "Value": "staging"
+     },
+     {
+      "Key": "managedBy",
+      "Value": "cdk"
+     },
+     {
+      "Key": "owner",
+      "Value": "Komodo Future Solutions"
+     },
+     {
+      "Key": "project",
+      "Value": "komodo-auth-api"
+     }
+    ],
+    "Threshold": 0.5,
+    "TreatMissingData": "notBreaching"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/LatencyP99Alarm/Resource"
+   }
+  },
+  "CacheIngress0": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "FromPort": 6379,
+    "GroupId": "PLACEHOLDER-sg-elasticache-stg",
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "PublicTaskSGC225DD54",
+      "GroupId"
+     ]
+    },
+    "ToPort": 6379
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/CacheIngress0"
+   }
+  },
+  "CacheIngress1": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "FromPort": 6379,
+    "GroupId": "PLACEHOLDER-sg-elasticache-stg",
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "PrivateTaskSGC1052C1C",
+      "GroupId"
+     ]
+    },
+    "ToPort": 6379
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/CacheIngress1"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/31RTW/bMAz9Lb0rWuACvaceWgxIsSEOsONAy4zHRhENUUoQCPrvg+x8ODv0xMf3+PEkVrp6WerlE5xkYbr9wlKrUxPA7BWc5E+y3ItOa+7fPcdB1Tt3wx8YPJk3sgF9EeZ5VmhEp9pGuahX+Aa+h4BbkP133JGjQOxKwf8MuwDk0M+4S2+D/kgGS9MVNgYstHYcW3N0oRjweoMDCwX251cQVGgqnRo00VM43x70NfHD9R5FsiI46LRhO+4d4y+2ZM4lnVBWMAyWDBSzEAOLAUuu1+luz/cYxh2PzBS2HsyeXN9Mfff5D0RWxnLsThDMX51WFvyh1IwgK7QggYxl6Fqw4Ay5/ljptLpbWzN0r6M2neYhn9eRBHSXmiue6ZPp27fN0qxOsCtb6537je2qXqsbWomwoXFAVt3ZwYG7Vm/LZ5QjZbVB4ein+/6MYYghK8cd6k/5dqxe9LNePn0K0cJHF+iAejPFf8xrbKjLAgAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "KomodoAuth-staging-west/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "AlbDnsName": {
+   "Value": {
+    "Fn::GetAtt": [
+     "PublicALB3C3B3014",
+     "DNSName"
+    ]
+   }
+  },
+  "ClusterName": {
+   "Value": {
+    "Ref": "ClusterEB0386A7"
+   }
+  },
+  "PublicServiceName": {
+   "Value": {
+    "Fn::GetAtt": [
+     "PublicServiceA1BECAD3",
+     "Name"
+    ]
+   }
+  },
+  "PrivateServiceName": {
+   "Value": {
+    "Fn::GetAtt": [
+     "PrivateServiceF7FD9DCA",
+     "Name"
+    ]
+   }
+  },
+  "DomainName": {
+   "Value": "auth-staging.komodo.com"
+  },
+  "WafWebAclArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "WafWebAclBE24253C",
+     "Arn"
+    ]
+   }
+  },
+  "BannedCustomersTableName": {
+   "Value": "komodo-banned-customers-stg"
+  },
+  "ElastiCacheSgId": {
+   "Value": "PLACEHOLDER-sg-elasticache-stg"
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

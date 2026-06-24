@@ -1,0 +1,76 @@
+name: komodo-auth-api
+
+services:
+  auth-api-public:
+    profiles: [infra, auth-api]
+    image: komodo-auth-api-public:${VERSION:-dev}
+    build:
+      context: ..
+      dockerfile: komodo-auth-api/Dockerfile
+      args:
+        BUILD_TARGET: public
+        DISTROLESS_TAG: ${DISTROLESS_TAG:-debug}
+    restart: ${RESTART_POLICY:-no}
+    deploy:
+      resources:
+        limits:
+          memory: ${MEM_LIMIT:-512M}
+    environment:
+      ENV: ${APP_ENV:-local}
+      LOG_LEVEL: ${LOG_LEVEL:-debug}
+      AWS_REGION: ${AWS_REGION:-us-east-2}
+      APP_NAME: komodo-auth-api
+      AWS_SECRET_PATH: ${SECRET_PATH:-komodo/local/auth-api}
+      PORT: :7011
+      VERSION: ${VERSION:-dev}
+      EVAL_RULES_PATH: /app/config/validation_rules.yaml
+      BANNED_CUSTOMERS_TABLE: ${BANNED_TABLE:-komodo-banned-customers}
+      USER_API_PRIVATE_URL: ${USER_API_URL:-http://user-api-public:7052}
+      COMMUNICATIONS_API_URL: ${COMMS_API_URL:-http://communications-api:7081}
+    ports:
+      - "7011:7011"
+    healthcheck:
+      test: ["CMD", "/komodo", "-healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - komodo-network
+
+  auth-api-private:
+    profiles: [infra, auth-api]
+    image: komodo-auth-api-private:${VERSION:-dev}
+    build:
+      context: ..
+      dockerfile: komodo-auth-api/Dockerfile
+      args:
+        BUILD_TARGET: private
+        DISTROLESS_TAG: ${DISTROLESS_TAG:-debug}
+    restart: ${RESTART_POLICY:-no}
+    deploy:
+      resources:
+        limits:
+          memory: ${MEM_LIMIT:-512M}
+    environment:
+      ENV: ${APP_ENV:-local}
+      LOG_LEVEL: ${LOG_LEVEL:-debug}
+      AWS_REGION: ${AWS_REGION:-us-east-2}
+      APP_NAME: komodo-auth-api-internal
+      AWS_SECRET_PATH: ${SECRET_PATH:-komodo/local/auth-api}
+      PORT_PRIVATE: :7012
+      VERSION: ${VERSION:-dev}
+    healthcheck:
+      test: ["CMD", "/komodo", "-healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      auth-api-public:
+        condition: service_healthy
+    network_mode: "service:auth-api-public"
+
+networks:
+  komodo-network:
+    external: true

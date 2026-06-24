@@ -1,0 +1,1048 @@
+{
+  "/KomodoAuth-staging-east": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:326:21)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    },
+    {
+      "type": "aws:cdk:error",
+      "data": "Need to perform AWS calls for account 123456789012, but no credentials have been configured",
+      "trace": [
+        "Annotations.addMessage (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/annotations.js:1:3441)",
+        "Annotations.addError (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/annotations.js:1:2673)",
+        "Annotations._addTrackableError (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/annotations.js:1:2772)",
+        "ContextProvider.getValue (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/context-provider.js:2:1886)",
+        "Vpc2.fromLookup (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:14954)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:279:23)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "ModuleJob.run (node:internal/modules/esm/module_job:439:25)",
+        "async node:internal/modules/esm/loader:646:26",
+        "async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)"
+      ]
+    },
+    {
+      "type": "aws:cdk:error-code",
+      "data": "ContextProviderError"
+    },
+    {
+      "type": "aws:cdk:stack-tags",
+      "data": [
+        {
+          "key": "dataClassification",
+          "value": "sensitive"
+        },
+        {
+          "key": "environment",
+          "value": "staging"
+        },
+        {
+          "key": "managedBy",
+          "value": "cdk"
+        },
+        {
+          "key": "owner",
+          "value": "Komodo Future Solutions"
+        },
+        {
+          "key": "project",
+          "value": "komodo-auth-api"
+        }
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/AlbDnsName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AlbDnsName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:291:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/ClusterName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ClusterName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:292:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/PublicServiceName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicServiceName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:293:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/PrivateServiceName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PrivateServiceName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:294:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/DomainName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DomainName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:295:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/CacheIngress0": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CacheIngress0"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "buildAuthCache (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:262:5)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:306:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/CacheIngress1": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CacheIngress1"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "buildAuthCache (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:262:5)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:306:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/WafWebAclArn": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "WafWebAclArn"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:308:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/BannedCustomersTableName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BannedCustomersTableName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:309:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/ElastiCacheSgId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ElastiCacheSgId"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:310:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/--ecs--komodo-auth-api-staging/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ecskomodoauthapistagingE4C35C61"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, LogGroupBuilder.build in komodo-forge-sdk-ts...",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:277:6)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Cluster/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ClusterEB0386A7"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Cluster2 in aws-cdk-lib...",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:280:19)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/Service": [
+    {
+      "type": "aws:cdk:warning",
+      "data": "Enable the 'circuitBreaker' property to trigger a quicker deployment failure if tasks are failing to come start (without this setting deployments may take up to 3 hours to fail). [ack: @aws-cdk/aws-ecs:shouldUseCircuitBreaker]",
+      "trace": [
+        "Annotations.addMessage (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/annotations.js:1:3441)",
+        "Annotations.addWarningV2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/annotations.js:1:2129)",
+        "new BaseService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:14671)",
+        "new BaseService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/no-box-stack-traces.js:1:345)",
+        "new FargateService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:7829)",
+        "new FargateService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/prop-injectable.js:1:855)",
+        "buildFargateService (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/komodo-forge-sdk-ts/src/deploy/cdk/constructs/fargateServiceBase.ts:66:18)",
+        "new FargatePublicService (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/komodo-forge-sdk-ts/src/deploy/cdk/constructs/fargatePublicService.ts:56:39)",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "ModuleJob.run (node:internal/modules/esm/module_job:439:25)",
+        "async node:internal/modules/esm/loader:646:26",
+        "async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)"
+      ]
+    },
+    {
+      "type": "aws:cdk:warning",
+      "data": "minHealthyPercent has not been configured so the default value of 50% is used. The number of running tasks will decrease below the desired count during deployments etc. See https://github.com/aws/aws-cdk/issues/31705 [ack: @aws-cdk/aws-ecs:minHealthyPercent]",
+      "trace": [
+        "Annotations.addMessage (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/annotations.js:1:3441)",
+        "Annotations.addWarningV2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/annotations.js:1:2129)",
+        "new BaseService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:16295)",
+        "new BaseService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/no-box-stack-traces.js:1:345)",
+        "new FargateService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:7829)",
+        "new FargateService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/prop-injectable.js:1:855)",
+        "buildFargateService (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/komodo-forge-sdk-ts/src/deploy/cdk/constructs/fargateServiceBase.ts:66:18)",
+        "new FargatePublicService (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/komodo-forge-sdk-ts/src/deploy/cdk/constructs/fargatePublicService.ts:56:39)",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "ModuleJob.run (node:internal/modules/esm/module_job:439:25)",
+        "async node:internal/modules/esm/loader:646:26",
+        "async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Private/Service": [
+    {
+      "type": "aws:cdk:warning",
+      "data": "Enable the 'circuitBreaker' property to trigger a quicker deployment failure if tasks are failing to come start (without this setting deployments may take up to 3 hours to fail). [ack: @aws-cdk/aws-ecs:shouldUseCircuitBreaker]",
+      "trace": [
+        "Annotations.addMessage (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/annotations.js:1:3441)",
+        "Annotations.addWarningV2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/annotations.js:1:2129)",
+        "new BaseService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:14671)",
+        "new BaseService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/no-box-stack-traces.js:1:345)",
+        "new FargateService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:7829)",
+        "new FargateService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/prop-injectable.js:1:855)",
+        "buildFargateService (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/komodo-forge-sdk-ts/src/deploy/cdk/constructs/fargateServiceBase.ts:66:18)",
+        "new FargatePrivateService (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/komodo-forge-sdk-ts/src/deploy/cdk/constructs/fargatePrivateService.ts:41:39)",
+        "buildPrivateContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:143:109)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:283:22)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "ModuleJob.run (node:internal/modules/esm/module_job:439:25)",
+        "async node:internal/modules/esm/loader:646:26",
+        "async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)"
+      ]
+    },
+    {
+      "type": "aws:cdk:warning",
+      "data": "minHealthyPercent has not been configured so the default value of 50% is used. The number of running tasks will decrease below the desired count during deployments etc. See https://github.com/aws/aws-cdk/issues/31705 [ack: @aws-cdk/aws-ecs:minHealthyPercent]",
+      "trace": [
+        "Annotations.addMessage (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/annotations.js:1:3441)",
+        "Annotations.addWarningV2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/annotations.js:1:2129)",
+        "new BaseService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/aws-ecs/lib/base/base-service.js:1:16295)",
+        "new BaseService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/no-box-stack-traces.js:1:345)",
+        "new FargateService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/aws-ecs/lib/fargate/fargate-service.js:1:7829)",
+        "new FargateService2 (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/aws-cdk-lib/core/lib/prop-injectable.js:1:855)",
+        "buildFargateService (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/komodo-forge-sdk-ts/src/deploy/cdk/constructs/fargateServiceBase.ts:66:18)",
+        "new FargatePrivateService (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/node_modules/komodo-forge-sdk-ts/src/deploy/cdk/constructs/fargatePrivateService.ts:41:39)",
+        "buildPrivateContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:143:109)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:283:22)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "ModuleJob.run (node:internal/modules/esm/module_job:439:25)",
+        "async node:internal/modules/esm/loader:646:26",
+        "async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Waf/WebAcl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "WafWebAclBE24253C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new WafWebAcl in komodo-forge-sdk-ts...",
+        "buildWaf (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:170:94)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:303:15)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Waf/AlbAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "WafAlbAssociationA634B2D5"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new WafWebAcl in komodo-forge-sdk-ts...",
+        "buildWaf (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:170:94)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:303:15)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/LatencyP99Alarm/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "LatencyP99Alarm14F5CE04"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, AlarmBuilder.build in komodo-forge-sdk-ts...",
+        "buildAuthAlarms (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:250:6)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:304:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/AlbSG/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicAlbSG0EB56BFF"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/TaskSG/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicTaskSGC225DD54"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/TaskSG/from KomodoAuthstagingeastPublicAlbSG7747C140:7011": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicTaskSGfromKomodoAuthstagingeastPublicAlbSG7747C1407011D96B41E7"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/TaskDef/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicTaskDef6541CF83"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/Service/Service": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicServiceA1BECAD3"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/CpuHighAlarm/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicCpuHighAlarm2D32CD69"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/MemoryHighAlarm/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicMemoryHighAlarm96338331"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/ALB/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicALB3C3B3014"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/UnhealthyTargetsAlarm/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicUnhealthyTargetsAlarm7B395194"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/High5xxErrorAlarm/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicHigh5xxErrorAlarm3B85414C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Private/TaskSG/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PrivateTaskSGC1052C1C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePrivateService in komodo-forge-sdk-ts...",
+        "buildPrivateContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:143:109)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:283:22)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Private/TaskDef/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PrivateTaskDefAFC7406E"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePrivateService in komodo-forge-sdk-ts...",
+        "buildPrivateContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:143:109)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:283:22)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Private/Service/Service": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PrivateServiceF7FD9DCA"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePrivateService in komodo-forge-sdk-ts...",
+        "buildPrivateContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:143:109)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:283:22)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Private/CpuHighAlarm/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PrivateCpuHighAlarm9A4F071A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePrivateService in komodo-forge-sdk-ts...",
+        "buildPrivateContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:143:109)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:283:22)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Private/MemoryHighAlarm/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PrivateMemoryHighAlarmDEA7E9AC"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePrivateService in komodo-forge-sdk-ts...",
+        "buildPrivateContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:143:109)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:283:22)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Issuance5xx/Filter/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Issuance5xxFilter80C91E9A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new MetricFilterAlarm in komodo-forge-sdk-ts...",
+        "buildAuthAlarms (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:193:3)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:304:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Issuance5xx/Alarm/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Issuance5xxAlarmBE9F142E"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new MetricFilterAlarm in komodo-forge-sdk-ts...",
+        "buildAuthAlarms (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:193:3)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:304:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/OtpAbuse/Filter/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OtpAbuseFilter2A5ED72A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new MetricFilterAlarm in komodo-forge-sdk-ts...",
+        "buildAuthAlarms (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:202:3)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:304:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/OtpAbuse/Alarm/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OtpAbuseAlarm9C13F469"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new MetricFilterAlarm in komodo-forge-sdk-ts...",
+        "buildAuthAlarms (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:202:3)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:304:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/OtpBruteForce/Filter/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OtpBruteForceFilter09EEEDE7"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new MetricFilterAlarm in komodo-forge-sdk-ts...",
+        "buildAuthAlarms (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:211:3)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:304:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/OtpBruteForce/Alarm/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OtpBruteForceAlarm02164DDA"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new MetricFilterAlarm in komodo-forge-sdk-ts...",
+        "buildAuthAlarms (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:211:3)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:304:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/RedisUnreachable/Filter/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "RedisUnreachableFilter88E79139"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new MetricFilterAlarm in komodo-forge-sdk-ts...",
+        "buildAuthAlarms (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:220:3)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:304:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/RedisUnreachable/Alarm/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "RedisUnreachableAlarm9562D474"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new MetricFilterAlarm in komodo-forge-sdk-ts...",
+        "buildAuthAlarms (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:220:3)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:304:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/JwksUnavailable/Filter/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JwksUnavailableFilterED863C45"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new MetricFilterAlarm in komodo-forge-sdk-ts...",
+        "buildAuthAlarms (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:229:3)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:304:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/JwksUnavailable/Alarm/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JwksUnavailableAlarm31BD9C1C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new MetricFilterAlarm in komodo-forge-sdk-ts...",
+        "buildAuthAlarms (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:229:3)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:304:3)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)",
+        "<anonymous> (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:336:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/TaskDef/TaskRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicTaskDefTaskRole620EEC0A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/TaskDef/ExecutionRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicTaskDefExecutionRole2ADF7BEF"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/ALB/HttpListener/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicALBHttpListener88C82863"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/ALB/HttpsListener/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicALBHttpsListener50656E21"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Private/TaskDef/TaskRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PrivateTaskDefTaskRoleF2C08502"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePrivateService in komodo-forge-sdk-ts...",
+        "buildPrivateContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:143:109)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:283:22)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Private/TaskDef/ExecutionRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PrivateTaskDefExecutionRole99CAC8C9"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/TaskDef/TaskRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicTaskDefTaskRoleDefaultPolicy730A9B9B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, komodo-forge-sdk-ts...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/TaskDef/ExecutionRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicTaskDefExecutionRoleDefaultPolicy9C764E12"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/Service/TaskCount/Target/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicServiceTaskCountTarget060D5623"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/ALB/HttpsListener/TargetGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicALBHttpsListenerTargetGroupB3A31D6D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Private/TaskDef/TaskRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PrivateTaskDefTaskRoleDefaultPolicy2337BCC2"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, komodo-forge-sdk-ts...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Private/TaskDef/ExecutionRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PrivateTaskDefExecutionRoleDefaultPolicyE2FB643D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Private/Service/TaskCount/Target/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PrivateServiceTaskCountTarget040C7C34"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePrivateService in komodo-forge-sdk-ts...",
+        "buildPrivateContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:143:109)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:283:22)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Public/Service/TaskCount/Target/CpuScaling/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublicServiceTaskCountTargetCpuScaling2F16DDFE"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePublicService in komodo-forge-sdk-ts...",
+        "buildPublicContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:111:107)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:282:21)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)"
+      ]
+    }
+  ],
+  "/KomodoAuth-staging-east/Private/Service/TaskCount/Target/CpuScaling/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PrivateServiceTaskCountTargetCpuScalingD8014F71"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, new FargatePrivateService in komodo-forge-sdk-ts...",
+        "buildPrivateContainer (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:143:109)",
+        "buildStack (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:283:22)",
+        "createInfra (/Users/rad/komodo-ecom/apis/komodo-auth-api/deploy/cdk/main.ts:327:7)"
+      ]
+    }
+  ]
+}

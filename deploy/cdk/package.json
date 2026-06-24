@@ -1,0 +1,25 @@
+{
+  "name": "komodo-auth-api-cdk",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "lib/main.js",
+  "types": "lib/main.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "vitest --coverage",
+    "cdk": "cdk",
+    "fresh": "rm -rf node_modules && bun install"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "@vitest/coverage-v8": "^4.1.0",
+    "typescript": "^6.0.0",
+    "vitest": "^4.1.0"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.260.0",
+    "constructs": "^10.6.0",
+    "komodo-forge-sdk-ts": "github:rdevitto86/komodo-forge-sdk-ts"
+  }
+}

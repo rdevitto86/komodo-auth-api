@@ -1,0 +1,23 @@
+{
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn",
+    "style": "warn",
+    "restriction": "warn",
+    "typescript": "error"
+  },
+  "ignore": [
+    "dist",
+    "node_modules",
+    "*.config.*",
+    ".github"
+  ],
+  "target": "ES2022",
+  "env": [
+    "node"
+  ],
+  "suppress": [
+    "unicorn/no-empty-file"
+  ]
+}

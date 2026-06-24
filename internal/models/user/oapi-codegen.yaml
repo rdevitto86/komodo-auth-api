@@ -1,0 +1,7 @@
+package: user
+output: ../../models/user/types.gen.go
+generate:
+  models: true
+  client: false
+output-options:
+  skip-prune: true

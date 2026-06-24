@@ -1,0 +1,97 @@
+version: "2"
+
+linters:
+  default: none
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - revive
+    - misspell
+    - gosec
+    - cyclop
+    - gocognit
+    - wrapcheck
+    - errorlint
+    - contextcheck
+
+  settings:
+    staticcheck:
+      checks:
+        - all
+        - "-ST1000"
+        - "-ST1003"
+        - "-QF1008"
+
+    cyclop:
+      max-complexity: 32
+
+    gocognit:
+      min-complexity: 50
+
+    gosec:
+      excludes:
+        - G101
+        - G104
+        - G115
+        - G710
+
+    revive:
+      rules:
+        - name: exported
+          disabled: true
+        - name: var-naming
+          disabled: true
+        - name: error-return
+          disabled: false
+
+    wrapcheck:
+      ignore-package-globs:
+        - komodo-forge-sdk-go/*
+        - encoding/json
+        - encoding/base64
+        - crypto/rand
+        - net/http
+        - github.com/golang-jwt/jwt/*
+
+    errorlint:
+      errorf: true
+      comparison: true
+
+  exclusions:
+    rules:
+      - path: "_test\\.go"
+        linters:
+          - wrapcheck
+          - gosec
+          - errcheck
+          - errorlint
+          - gocognit
+
+      - path: "main\\.go"
+        linters:
+          - contextcheck
+          - errcheck
+
+      - path: "internal/api/oauth_authorize\\.go"
+        linters:
+          - errcheck
+
+      - linters:
+          - errcheck
+        text: "Body\\.Close"
+
+      - linters:
+          - contextcheck
+        path: "internal/api/otp\\.go"
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
