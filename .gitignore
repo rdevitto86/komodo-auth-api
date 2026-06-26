@@ -1,3 +1,86 @@
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Environment / Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Go
+/bin/
+/dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+coverage.out
+coverage.html
+vendor/
+__debug_bin
+
+# Node / TypeScript
+node_modules/
+dist/
+build/
+*.js.map
+*.d.ts.map
+.npm
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.pnp.*
+
+# AWS CDK
+cdk.out/
+cdk.context.json
+.cdk.staging/
+deploy/cdk/coverage/
+
+# Test / Coverage
+coverage/
+*.lcov
+.nyc_output/
+coverage.out
+coverage.html
+
+# Docker
+.docker/
+
+# Misc tooling
+.terraform/
+*.tfstate
+*.tfstate.*
+.direnv/
+.tool-versions
+
+# AI
 AGENTS.md
 CLAUDE.md
 .claude
