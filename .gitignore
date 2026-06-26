@@ -61,6 +61,7 @@ build/
 cdk.out/
 cdk.context.json
 .cdk.staging/
+deploy/cdk/lib/
 deploy/cdk/coverage/
 
 # Test / Coverage
