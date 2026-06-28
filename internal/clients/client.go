@@ -37,8 +37,8 @@ type HttpClientCallers interface {
 
 type HttpClient struct {
 	*sdkhttp.Client
-	CommsBaseURL string
-	UserBaseURL  string
+	CommsBaseURL    string
+	CustomerBaseURL string
 
 	emailSemOnce sync.Once
 	emailSem     chan struct{}
@@ -53,8 +53,8 @@ func (c *HttpClient) emailSemaphore() chan struct{} {
 
 type HttpClientConfig struct {
 	sdkhttp.ClientConfig
-	CommsBaseURL string
-	UserBaseURL  string
+	CommsBaseURL    string
+	CustomerBaseURL string
 }
 
 func New(cfg HttpClientConfig) (*HttpClient, error) {
@@ -67,9 +67,9 @@ func New(cfg HttpClientConfig) (*HttpClient, error) {
 		return nil, fmt.Errorf("failed to create http client")
 	}
 	return &HttpClient{
-		Client:       client,
-		CommsBaseURL: cfg.CommsBaseURL,
-		UserBaseURL:  cfg.UserBaseURL,
+		Client:          client,
+		CommsBaseURL:    cfg.CommsBaseURL,
+		CustomerBaseURL: cfg.CustomerBaseURL,
 	}, nil
 }
 
@@ -104,6 +104,6 @@ func (c *HttpClient) CommsReachable(ctx context.Context) error {
 	return c.reachable(ctx, c.CommsBaseURL, "communications-api")
 }
 
-func (c *HttpClient) UserReachable(ctx context.Context) error {
-	return c.reachable(ctx, c.UserBaseURL, "user-api")
+func (c *HttpClient) CustomerReachable(ctx context.Context) error {
+	return c.reachable(ctx, c.CustomerBaseURL, "customer-api")
 }

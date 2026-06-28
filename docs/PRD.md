@@ -18,7 +18,7 @@ The Auth API is the **sole authentication authority** for Komodo: the single tok
 ## Non-Goals (explicit)
 
 - **Authorization / RBAC** — scope *enforcement* beyond token claims belongs to `komodo-access-api`. This API embeds scopes in tokens; it does not manage roles or permissions.
-- **User profile and credential storage** — `komodo-user-api` owns user records and passkey credential material; this API consumes it via HTTP adapter.
+- **User profile and credential storage** — `komodo-customer-api` owns user records and passkey credential material; this API consumes it via HTTP adapter.
 - **Basic Auth** — removed entirely (decision 2026-06-12). `client_credentials` JWTs cover M2M; a second credential path adds audit surface for zero gain.
 - **Server-side session store** — this API manages token lifecycle (issue / refresh / revoke / introspect), not sessions. "Session" for an authenticated user *is* the refresh-token lifecycle. See Open Questions for guest sessions.
 - **Social IdP federation (Google, Apple)** — V2, blocked on the `authorization_code` grant and login UI.
@@ -45,19 +45,21 @@ The Auth API is the **sole authentication authority** for Komodo: the single tok
 | User access (OTP- or passkey-issued) | 30 minutes (decision 2026-06-12 — raised from 5; balances local-verify revocation lag against refresh chatter) |
 | OTP code / WebAuthn challenge | 5 minutes, single-use |
 
+![Token lifecycle](diagrams/token-lifecycle.png)
+
 ## Functional Requirements — V1
 
 1. **OAuth2 token issuance** — `client_credentials` (M2M), `refresh_token` (with rotation), and `authorization_code` (PKCE-S256, Phase 8c — flag-gated via `ENABLE_AUTH_CODE_GRANT`, functional when enabled) grants; RFC 6749 form + JSON, snake_case responses.
 2. **Passkey authentication (WebAuthn)** — *new in V1 (decision 2026-06-12)*:
    - Registration ceremony for users with a known account (requires an authenticated context — an OTP-verified or existing valid token).
    - Assertion ceremony issuing a user access + refresh token on success.
-   - Credential public keys stored by user-api (adapter extension); challenges in Redis with 5-min TTL, single-use.
+   - Credential public keys stored by customer-api (adapter extension); challenges in Redis with 5-min TTL, single-use.
 3. **Email OTP** — request/verify as built: 6-digit, 5-min TTL, single-use, INCR-first attempt cap (5), SetNX cooldown, constant-time compare. Retained permanently as the fallback factor and email-verification mechanism — not removed in favor of passkeys.
 4. **Token lifecycle** — revoke (RFC 7009), introspect (RFC 7662, private plane), validate (private plane, network-trust exception documented).
 5. **JWKS publication** — `/.well-known/jwks.json`, multi-`kid` during rotation overlap, `Cache-Control ≤ 300s`.
 6. **Client registry** — Secrets-Manager-sourced, hot-reloadable, fail-closed scope checks (empty `allowed_scopes` ⇒ deny), enumerable only with authenticated private-plane access.
 7. **Banned-customer gate** — checked before any user-token issuance (OTP request wired; token paths per TODO).
-8. **HTTP adapters** — comms-api (OTP email delivery, async, bounded, time-boxed) and user-api (credential/identity resolution, passkey credential CRUD).
+8. **HTTP adapters** — comms-api (OTP email delivery, async, bounded, time-boxed) and customer-api (credential/identity resolution, passkey credential CRUD).
 
 ## Security Requirements (all planes)
 
@@ -85,7 +87,7 @@ Latency baselines are modeled, not measured (see TODO latency table); a k6 basel
 
 ## Dependencies
 
-- `komodo-user-api` — credential resolution (`GET /v1/me/credentials`), passkey credential storage (new V1 surface to be specified in its PRD).
+- `komodo-customer-api` — credential resolution (`GET /v1/me/credentials`), passkey credential storage (new V1 surface to be specified in its PRD).
 - `komodo-communications-api` — OTP email delivery (`otp` template registration outstanding).
 - ElastiCache Redis, Secrets Manager (V2: KMS), DynamoDB banned-customers table.
 - `ui/` — snake_case token responses; guest-OTP assumptions removed (TODO Phase 5).
@@ -102,6 +104,6 @@ Guests never touch the Auth API. The **UI/BFF issues signed anonymous session co
 
 ## Risks
 
-- Passkeys-in-V1 adds a cross-repo dependency (user-api credential storage) and new ceremony endpoints to the launch surface — the largest V1 schedule risk.
+- Passkeys-in-V1 adds a cross-repo dependency (customer-api credential storage) and new ceremony endpoints to the launch surface — the largest V1 schedule risk.
 - Redis is the single stateful dependency; OTP/passkey/revocation flows degrade without it (documented fail-open/fail-closed posture per endpoint).
 - Compliance trajectory (SOC2, PCI-DSS) requires the logging/redaction and coverage floors to hold as the enterprise pattern propagates.

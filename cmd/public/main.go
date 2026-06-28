@@ -206,7 +206,7 @@ func newMux(svc *api.Service) *http.ServeMux {
 			readyChecks = append(readyChecks, svc.BannedReachability.Reachable)
 		}
 		if svc.HttpReachability != nil {
-			readyChecks = append(readyChecks, svc.HttpReachability.CommsReachable, svc.HttpReachability.UserReachable)
+			readyChecks = append(readyChecks, svc.HttpReachability.CommsReachable, svc.HttpReachability.CustomerReachable)
 		}
 	}
 
@@ -276,7 +276,7 @@ func main() {
 	svc, err := api.New(api.ServiceConfig{
 		HttpClient: clients.HttpClientConfig{
 			CommsBaseURL: os.Getenv("COMMUNICATIONS_API_URL"),
-			UserBaseURL:  os.Getenv("USER_API_PRIVATE_URL"),
+			CustomerBaseURL: os.Getenv("CUSTOMER_API_PRIVATE_URL"),
 		},
 		CacheClient: &deps.cacheConfig,
 		BannedCustomers: &clients.BannedCustomersConfig{

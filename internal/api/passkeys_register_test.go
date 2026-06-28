@@ -96,7 +96,7 @@ func TestPasskeyRegisterBeginHandler_Component(t *testing.T) {
 
 	t.Run("ListPasskeysError_Returns503", func(t *testing.T) {
 		wa := newTestWebAuthn(t)
-		fake := &fakeHttpClient{listPasskeysErr: errors.New("user-api: 500 Internal Server Error")}
+		fake := &fakeHttpClient{listPasskeysErr: errors.New("customer-api: 500 Internal Server Error")}
 		svc, _ := svcWithPasskeyDeps(t, fake, wa)
 		req := passkeyAuthedRequest(http.MethodPost, "/v1/passkeys/register/begin", "", regTestUserID)
 		rr := httptest.NewRecorder()
@@ -526,7 +526,7 @@ func TestPasskeyRegisterCompleteHandler_Component_CreatePasskeyError_Returns503(
 	testutil.Component(t)
 
 	wa := newTestWebAuthn(t)
-	fake := &fakeHttpClient{createPasskeyErr: errors.New("user-api: 500")}
+	fake := &fakeHttpClient{createPasskeyErr: errors.New("customer-api: 500")}
 	svc, _ := svcWithPasskeyDeps(t, fake, wa)
 
 	beginReq := passkeyAuthedRequest(http.MethodPost, "/v1/passkeys/register/begin", "", regTestUserID)

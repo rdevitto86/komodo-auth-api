@@ -170,7 +170,7 @@ Downstream clients are generated locally with `oapi-codegen` into `internal/clie
 | Variable | Description |
 |----------|-------------|
 | `COMMUNICATIONS_API_URL` | Base URL of komodo-communications-api (e.g. `http://communications-api:7081`). Used by `SendEmail` to deliver OTPs. |
-| `USER_API_PRIVATE_URL` | Base URL of komodo-user-api private port (e.g. `http://user-api:7052`). Used by OTP verify to resolve a registered email to the user's UUID for the JWT subject. No fallback: a user-api lookup error returns 503, and an unresolved account returns 401 (`account_not_found`). |
+| `CUSTOMER_API_PRIVATE_URL` | Base URL of komodo-customer-api private port (e.g. `http://customer-api:7052`). Used by OTP verify to resolve a registered email to the user's UUID for the JWT subject. No fallback: a customer-api lookup error returns 503, and an unresolved account returns 401 (`account_not_found`). |
 
 ### Rate Limiting / Security (public server only)
 
@@ -294,10 +294,10 @@ go build -o bin/auth-private ./cmd/private    # internal binary
 ### Codegen
 
 ```bash
-make generate              # all: server models + comms + user clients
+make generate              # all: server models + comms + customer clients
 make generate-server       # internal/models from this service's openapi.yaml
 make generate-client-comms # internal/models/comms from communications-api
-make generate-client-user  # internal/models/user from user-api
+make generate-client-customer  # internal/models/user from customer-api
 make generate-check        # fail if generated files are stale
 ```
 
@@ -525,6 +525,6 @@ curl http://localhost:7012/v1/clients/my-service
 - **`authorization_code` is flag-gated:** The grant is off unless `ENABLE_AUTH_CODE_GRANT="true"`. While disabled, `GET /v1/oauth/authorize` returns a direct 501 (no redirect — avoids open-redirect on an unconfigured flow) and the `authorization_code` grant on `POST /v1/oauth/token` returns 501. When enabled, both endpoints are fully functional. The `/authorize` endpoint requires a `user_id` query parameter (placeholder for login-UI session integration). PKCE S256 is required.
 - **OTP delivery is wired:** `internal/clients/HttpClient.SendEmail` calls communications-api directly using the locally-generated client. Delivery failures are non-fatal — the OTP is already stored in Redis, so the handler logs the error and returns 200. Returning a 5xx would let an attacker probe email existence or comms availability by comparing responses.
 - **OTP attempt limiting (INCR-first):** Verify atomically increments `otp:attempts:<email>` *before* checking the submitted code; once the returned count exceeds `MaxAttempts` (5) the request is rejected with 429 before the OTP is even looked up. The counter is deleted on successful verify. This closes the check-then-act race where concurrent requests could each read a pre-limit count and all slip past the cap.
-- **OTP subject resolution:** Every OTP token requires a resolved user UUID via `user-api.GetUserCredentials` (called with a 30s service token). The JWT `sub` is the bare UUID — the `USER#` prefix is a DynamoDB key artifact and never appears in tokens or cross-service payloads. There is no guest/email-subject fallback: a user-api lookup error returns 503, and an unresolved account (valid OTP, no matching user-api record) returns 401. OTP exists only to authenticate an existing account or verify email during account creation — both require a resolved identity.
+- **OTP subject resolution:** Every OTP token requires a resolved user UUID via `customer-api.GetUserCredentials` (called with a 30s service token). The JWT `sub` is the bare UUID — the `USER#` prefix is a DynamoDB key artifact and never appears in tokens or cross-service payloads. There is no guest/email-subject fallback: a customer-api lookup error returns 503, and an unresolved account (valid OTP, no matching customer-api record) returns 401. OTP exists only to authenticate an existing account or verify email during account creation — both require a resolved identity.
 - **Internal port auth split:** `/v1/oauth/introspect`, `/v1/clients`, and `/v1/clients/{id}` run through `ClientType` + `Auth` middleware (bearer token required) — the client registry exposes `allowed_scopes` per client and must not be enumerable by any caller that can merely reach the private listener. `/v1/token/validate` is the sole exception: it is deliberately unauthenticated, since the submitted token is itself the credential being validated. All internal routes additionally rely on network-level isolation (VPC private subnet). Do not expose port 7012 publicly.
 - **RS256 only:** ECDSA and other key types are not supported at the JWKS endpoint. Keys are parsed from PEM at startup and hot-reloaded on rotation; the active and previous `kid` are both verifiable and published during the overlap window (`docs/adr/003-key-rotation.md`).

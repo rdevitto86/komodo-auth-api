@@ -105,7 +105,7 @@ func TestOTPRequestHandler_Integration_ValidEmail_Succeeds(t *testing.T) {
 	redisAddr := startRedisContainer(t)
 	cache := newCacheFromAddr(t, redisAddr)
 
-	uStub := userAPIStub(t, "f0e1d2c3-b4a5-9678-90ab-cdef01234567")
+	uStub := customerAPIStub(t, "f0e1d2c3-b4a5-9678-90ab-cdef01234567")
 	defer uStub.Close()
 	cStub := commsStub(t)
 	defer cStub.Close()
@@ -289,10 +289,10 @@ func TestOTPVerifyHandler_Component(t *testing.T) {
 		err        error
 		wantStatus int
 	}{
-		{"UserAPI_5xx_FailsVerify", nil, errors.New("user-api: 500 Internal Server Error"), http.StatusServiceUnavailable},
-		{"UserAPI_404_FailsVerify", nil, fmt.Errorf("user-api: 404 Not Found"), http.StatusServiceUnavailable},
-		{"UserAPI_NetworkError_FailsVerify", nil, errors.New("dial tcp: connection refused"), http.StatusServiceUnavailable},
-		{"UserAPI_NilCredsNoError_AccountNotFound", nil, nil, http.StatusUnauthorized},
+		{"CustomerAPI_5xx_FailsVerify", nil, errors.New("customer-api: 500 Internal Server Error"), http.StatusServiceUnavailable},
+		{"CustomerAPI_404_FailsVerify", nil, fmt.Errorf("customer-api: 404 Not Found"), http.StatusServiceUnavailable},
+		{"CustomerAPI_NetworkError_FailsVerify", nil, errors.New("dial tcp: connection refused"), http.StatusServiceUnavailable},
+		{"CustomerAPI_NilCredsNoError_AccountNotFound", nil, nil, http.StatusUnauthorized},
 	}
 	for _, tc := range credsCases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -308,7 +308,7 @@ func TestOTPVerifyHandler_Component(t *testing.T) {
 		})
 	}
 
-	t.Run("UserAPI_ValidCreds_UsesUserId", func(t *testing.T) {
+	t.Run("CustomerAPI_ValidCreds_UsesUserId", func(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		mockHTTP := mocks.NewMockHttpClientCallers(ctrl)
 		mockHTTP.EXPECT().
@@ -321,7 +321,7 @@ func TestOTPVerifyHandler_Component(t *testing.T) {
 
 		resp := decodeJSON[models.TokenResponse](t, rr)
 		if resp.AccessToken == "" {
-			t.Fatal("expected non-empty accessToken when user-api returns valid creds")
+			t.Fatal("expected non-empty accessToken when customer-api returns valid creds")
 		}
 	})
 

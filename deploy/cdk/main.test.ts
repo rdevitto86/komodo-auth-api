@@ -52,7 +52,7 @@ describe('configs', () => {
     expect(DEV_CONFIG).not.toHaveProperty('bannedCustomersTable');
     expect(DEV_CONFIG).not.toHaveProperty('elasticacheSgId');
     expect(DEV_CONFIG.downstreamUrls).toEqual([
-      'http://user-api-public.komodo-dev.local:7052',
+      'http://customer-api-public.komodo-dev.local:7052',
       'http://communications-api.komodo-dev.local:7081',
     ]);
     expect(DEV_CONFIG.tags).toMatchObject({ project: API_NAME, environment: 'dev' });
@@ -99,7 +99,7 @@ describe('buildPublicContainer', () => {
             Match.objectLike({ Name: 'PORT', Value: `:${PUBLIC_PORT}` }),
             Match.objectLike({ Name: 'AWS_REGION', Value: 'us-east-2' }),
             Match.objectLike({ Name: 'BANNED_CUSTOMERS_TABLE', Value: '' }),
-            Match.objectLike({ Name: 'USER_API_PRIVATE_URL', Value: 'http://user-api-public.komodo-dev.local:7052' }),
+            Match.objectLike({ Name: 'CUSTOMER_API_PRIVATE_URL', Value: 'http://customer-api-public.komodo-dev.local:7052' }),
             Match.objectLike({ Name: 'COMMUNICATIONS_API_URL', Value: 'http://communications-api.komodo-dev.local:7081' }),
           ]),
         }),

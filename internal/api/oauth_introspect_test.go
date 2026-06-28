@@ -61,7 +61,7 @@ func TestOAuthIntrospectHandler_Integration_RevokedToken_ActiveFalse(t *testing.
 	redisAddr := startRedisContainer(t)
 	cache := newCacheFromAddr(t, redisAddr)
 
-	uStub := userAPIStub(t, "d4e5f6a7-b8c9-0123-def0-123456789014")
+	uStub := customerAPIStub(t, "d4e5f6a7-b8c9-0123-def0-123456789014")
 	defer uStub.Close()
 	cStub := commsStub(t)
 	defer cStub.Close()

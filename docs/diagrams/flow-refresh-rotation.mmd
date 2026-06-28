@@ -1,0 +1,18 @@
+sequenceDiagram
+    autonumber
+    participant U as User (UI/BFF)
+    participant P as auth-api (:7011)
+    participant K as Keyset (kid-resolved)
+    participant R as Redis (JTI denylist)
+
+    U->>P: POST /v1/oauth/token grant_type=refresh_token
+    P->>K: verify RS256 under resolved kid
+    P->>R: GET denylist(old JTI)
+    alt JTI present (replay)
+        P-->>U: 401 invalid_grant
+        Note over P,R: replay detected — token chain compromised
+    else fresh
+        P->>R: SET denylist(old JTI), TTL = remaining lifetime
+        P->>K: sign new access (30 min) + new refresh (30d sliding)
+        P-->>U: rotated access + refresh
+    end

@@ -330,7 +330,7 @@ func TestPasskeyLoginBeginHandler_Component(t *testing.T) {
 
 	t.Run("GetUserCredentialsError_Returns503", func(t *testing.T) {
 		wa := newTestLoginWebAuthn(t)
-		fake := &fakeHttpClient{getUserCredsErr: errors.New("user-api: 500")}
+		fake := &fakeHttpClient{getUserCredsErr: errors.New("customer-api: 500")}
 		svc, _ := svcWithLoginDeps(t, fake, wa)
 		req := httptest.NewRequest(http.MethodPost, "/v1/passkeys/login/begin", strings.NewReader(`{"email":"user@example.com","client_id":"test-client"}`))
 		rr := httptest.NewRecorder()
@@ -342,7 +342,7 @@ func TestPasskeyLoginBeginHandler_Component(t *testing.T) {
 		wa := newTestLoginWebAuthn(t)
 		fake := &fakeHttpClient{
 			getUserCredsResult: userCreds(loginTestUserID),
-			listPasskeysErr:    errors.New("user-api: 500"),
+			listPasskeysErr:    errors.New("customer-api: 500"),
 		}
 		svc, _ := svcWithLoginDeps(t, fake, wa)
 		req := httptest.NewRequest(http.MethodPost, "/v1/passkeys/login/begin", strings.NewReader(`{"email":"user@example.com","client_id":"test-client"}`))
@@ -720,7 +720,7 @@ func TestPasskeyLoginCompleteHandler_Component(t *testing.T) {
 		checkStatus(t, beginRR, http.StatusOK)
 		assertion := decodeJSON[protocol.CredentialAssertion](t, beginRR)
 
-		fake.listPasskeysErr = errors.New("user-api: 500")
+		fake.listPasskeysErr = errors.New("customer-api: 500")
 		fake.listPasskeysResult = nil
 
 		body, err := auth.sign(assertion.Response.Challenge.String(), 1)
@@ -740,7 +740,7 @@ func TestPasskeyLoginCompleteHandler_Component(t *testing.T) {
 		fake := &fakeHttpClient{
 			getUserCredsResult: userCreds(loginTestUserID),
 			listPasskeysResult: []clients.PasskeyCredentialDescriptor{auth.descriptor(0)},
-			updatePasskeyErr:   errors.New("user-api: 500"),
+			updatePasskeyErr:   errors.New("customer-api: 500"),
 		}
 		svc, _ := svcWithLoginDeps(t, fake, wa)
 

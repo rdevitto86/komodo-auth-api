@@ -1,6 +1,6 @@
 # Data Model — Komodo Auth API
 
-> **Status:** Frozen for V1 — 2026-06-12. Auth-api holds **no durable user data** — user records, email→ID mapping, and passkey credential public keys live in `komodo-user-api`. Everything here is ephemeral TTL'd operational state or service-owned secrets.
+> **Status:** Frozen for V1 — 2026-06-12. Auth-api holds **no durable user data** — user records, email→ID mapping, and passkey credential public keys live in `komodo-customer-api`. Everything here is ephemeral TTL'd operational state or service-owned secrets.
 
 ## Redis (ElastiCache)
 

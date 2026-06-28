@@ -23,26 +23,26 @@ ifeq ($(ENV),prod)
   MEM_LIMIT := 1g
   DISTROLESS_TAG := nonroot
   SECRET_PATH := komodo/prod/auth-api
-  USER_API_URL := http://user-api-public.komodo-prod.local:7052
+  CUSTOMER_API_URL := http://customer-api-public.komodo-prod.local:7052
   COMMS_API_URL := http://communications-api.komodo-prod.local:7081
 else ifeq ($(ENV),staging)
   MEM_LIMIT := 1g
   DISTROLESS_TAG := nonroot
   SECRET_PATH := komodo/staging/auth-api
-  USER_API_URL := http://user-api-public.komodo-stg.local:7052
+  CUSTOMER_API_URL := http://customer-api-public.komodo-stg.local:7052
   COMMS_API_URL := http://communications-api.komodo-stg.local:7081
 else ifeq ($(ENV),dev)
   LOG_LEVEL := info
   DISTROLESS_TAG := debug
   SECRET_PATH := komodo/dev/auth-api
-  USER_API_URL := http://user-api-public.komodo-dev.local:7052
+  CUSTOMER_API_URL := http://customer-api-public.komodo-dev.local:7052
   COMMS_API_URL := http://communications-api.komodo-dev.local:7081
 else
   RESTART_POLICY := no
   LOG_LEVEL := debug
   DISTROLESS_TAG := debug
   SECRET_PATH := komodo/local/auth-api
-  USER_API_URL := http://user-api-public:7052
+  CUSTOMER_API_URL := http://customer-api-public:7052
   COMMS_API_URL := http://communications-api:7081
 endif
 
@@ -56,14 +56,14 @@ COMPOSE_ENV := VERSION=$(TAG) \
 	DISTROLESS_TAG=$(DISTROLESS_TAG) \
 	APP_ENV=$(ENV) \
 	SECRET_PATH=$(SECRET_PATH) \
-	USER_API_URL=$(USER_API_URL) \
+	CUSTOMER_API_URL=$(CUSTOMER_API_URL) \
 	COMMS_API_URL=$(COMMS_API_URL)
 
 define PROD_GUARD
 $(if $(filter prod,$(ENV)),$(error Production containers must not run locally. Use CI/CD or 'make deploy prod'.))
 endef
 
-.PHONY: build run bootstrap stop restart clean test test_unit test_component lint generate generate-check help generate-server generate-client-comms generate-client-user generate-mocks deploy $(ENVS)
+.PHONY: build run bootstrap stop restart clean test test_unit test_component lint generate generate-check help generate-server generate-client-comms generate-client-customer generate-mocks deploy diagrams diagrams-clean $(ENVS)
 
 $(ENVS):
 	@true
@@ -83,6 +83,8 @@ help:
 	@echo "  lint              Run golangci-lint"
 	@echo "  generate          Run all code generation targets"
 	@echo "  generate-check    Run generate and verify no diff"
+	@echo "  diagrams          Render docs/diagrams/*.mmd to PNG (requires mmdc)"
+	@echo "  diagrams-clean    Remove generated PNGs from docs/diagrams/"
 	@echo ""
 	@echo "Usage: make <target> [local|dev|staging|prod]    (default: local)"
 	@echo ""
@@ -161,14 +163,28 @@ generate-server:
 generate-client-comms:
 	@cd internal/models/comms && $(OAPI_CODEGEN) -config oapi-codegen.yaml ../../../../komodo-communications-api/openapi.yaml
 
-generate-client-user:
-	@cd internal/models/user && $(OAPI_CODEGEN) -config oapi-codegen.yaml ../../../../komodo-user-api/openapi.yaml
+generate-client-customer:
+	@cd internal/models/user && $(OAPI_CODEGEN) -config oapi-codegen.yaml ../../../../komodo-customer-api/openapi.yaml
 
 generate-mocks:
 	@go generate ./...
 
-generate: generate-server generate-client-comms generate-client-user generate-mocks
+generate: generate-server generate-client-comms generate-client-customer generate-mocks
 
 generate-check: generate
 	@git diff --exit-code -- internal/models internal/testutil/mocks \
 		|| (echo "Generated files are stale. Run 'make generate' and commit." && exit 1)
+
+DIAGRAM_DIR := docs/diagrams
+DIAGRAM_SRC := $(wildcard $(DIAGRAM_DIR)/*.mmd)
+DIAGRAM_OUT := $(DIAGRAM_SRC:.mmd=.png)
+
+diagrams: $(DIAGRAM_OUT)
+
+$(DIAGRAM_DIR)/%.png: $(DIAGRAM_DIR)/%.mmd
+	@command -v mmdc >/dev/null || { echo "mmdc not installed. Run: npm i -g @mermaid-js/mermaid-cli"; exit 1; }
+	@echo "rendering $<"
+	@mmdc -i $< -o $@ -b white -s 2 >/dev/null
+
+diagrams-clean:
+	@rm -f $(DIAGRAM_DIR)/*.png

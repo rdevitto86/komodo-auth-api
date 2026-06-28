@@ -1,0 +1,28 @@
+sequenceDiagram
+    autonumber
+    participant U as User (authenticator)
+    participant P as auth-api (:7011)
+    participant R as Redis
+    participant C as customer-api
+    participant D as DynamoDB (banned)
+
+    Note over U,D: Register (requires authenticated context)
+    U->>P: POST /v1/passkeys/register/begin
+    P->>R: store challenge, 5-min single-use
+    P-->>U: PublicKeyCredentialCreationOptions
+    U->>P: POST /v1/passkeys/register/complete (attestation)
+    P->>R: consume challenge
+    P->>P: verify attestation (UV=required, attestation=none)
+    P->>C: store credential public key
+    P-->>U: 201
+
+    Note over U,D: Login (assertion)
+    U->>P: POST /v1/passkeys/login/begin
+    P->>R: store challenge, 5-min single-use
+    P-->>U: PublicKeyCredentialRequestOptions
+    U->>P: POST /v1/passkeys/login/complete (signed assertion)
+    P->>R: consume challenge
+    P->>C: fetch credential public key
+    P->>P: verify assertion + sign-count
+    P->>D: banned-customer gate
+    P-->>U: access + refresh token

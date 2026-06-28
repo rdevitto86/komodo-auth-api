@@ -7,7 +7,7 @@
 
 ## Context
 
-The PRD (frozen 2026-06-12) makes passkeys the primary V1 user-authentication method, with email OTP as the permanent fallback and email-verification factor. Komodo stores no passwords anywhere. Auth-api runs the WebAuthn ceremonies and mints tokens; user-api owns the credential records (public keys only — the passkey private key never leaves the user's device).
+The PRD (frozen 2026-06-12) makes passkeys the primary V1 user-authentication method, with email OTP as the permanent fallback and email-verification factor. Komodo stores no passwords anywhere. Auth-api runs the WebAuthn ceremonies and mints tokens; customer-api owns the credential records (public keys only — the passkey private key never leaves the user's device).
 
 ## Decisions
 
@@ -29,7 +29,7 @@ The RP ID is the domain name permanently stamped into every passkey at creation;
 |---|---|---|
 | Attestation | `none` | CA-chain/metadata verification buys nothing for consumer e-com; avoids privacy prompts |
 | User verification | `required` | Passkey is the sole login factor; UV (biometric/PIN) makes it possession + inherence — 2FA-equivalent |
-| Resident key | `preferred` | Modern platform authenticators create discoverable credentials anyway; old security keys still register. V1 login is **email-first** (email → `allowCredentials` from user-api); a username-less one-tap flow can be added later without re-registering anyone |
+| Resident key | `preferred` | Modern platform authenticators create discoverable credentials anyway; old security keys still register. V1 login is **email-first** (email → `allowCredentials` from customer-api); a username-less one-tap flow can be added later without re-registering anyone |
 | COSE algorithms | ES256 primary, RS256 fallback | Platform-authenticator standard (unrelated to the JWT RS256) |
 | Sign-count regression | Log-and-allow + telemetry | Synced passkeys (iCloud/Google) legitimately report 0; rejecting locks out the mainstream case. Revisit at MFA (V2) |
 | Ceremony timeout | 60s client-side | WebAuthn convention |
@@ -51,9 +51,9 @@ go-webauthn `SessionData` stored in Redis, mirroring the OTP pattern: `webauthn:
 
 Successful assertion issues the standard user pair: 30-min access token (PRD decision 2026-06-12) with scope `passkey:verified` (parallel to `otp:verified` — downstream treats either as "authenticated user") + 30-day sliding refresh token. Banned-customer gate runs before issuance. RFC 8176 `amr` claim noted as a V2 consideration, not built now.
 
-### 7. Credential storage (user-api)
+### 7. Credential storage (customer-api)
 
-User-api owns the records, CRUD on its private plane, specced in its `openapi.yaml` before auth-api ceremony work starts (see its PRD alignment section). Fields: credential ID (base64url), COSE public key, sign count, transports, AAGUID, backup-eligible/backup-state flags, created/last-used. Auth-api stores none of it.
+Customer-api owns the records, CRUD on its private plane, specced in its `openapi.yaml` before auth-api ceremony work starts (see its PRD alignment section). Fields: credential ID (base64url), COSE public key, sign count, transports, AAGUID, backup-eligible/backup-state flags, created/last-used. Auth-api stores none of it.
 
 ## Consequences
 

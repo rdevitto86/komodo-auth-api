@@ -1,0 +1,32 @@
+sequenceDiagram
+    autonumber
+    participant U as User (UI/BFF)
+    participant P as auth-api (:7011)
+    participant D as DynamoDB (banned)
+    participant R as Redis
+    participant M as comms-api
+    participant C as customer-api
+
+    Note over U,C: Request — always 200, no enumeration
+    U->>P: POST /v1/otp/request
+    P->>D: banned-customer gate
+    P->>R: SETNX cooldown (429 + Retry-After on conflict)
+    P->>R: store 6-digit code, 5-min TTL
+    P-->>U: 200 OK
+    P-)M: async bounded email send
+
+    Note over U,C: Verify
+    U->>P: POST /v1/otp/verify
+    P->>R: INCR attempts (cap 5 → 429)
+    P->>R: constant-time compare + SetNX redemption claim
+    P->>C: resolve user by email
+    alt no account
+        C-->>P: not found
+        P-->>U: 401 (never email-as-sub)
+    else lookup error
+        C-->>P: error
+        P-->>U: 503
+    else resolved
+        C-->>P: bare uuid
+        P-->>U: 30-min access (otp:verified) — no refresh
+    end

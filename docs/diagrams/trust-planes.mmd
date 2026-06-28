@@ -1,0 +1,26 @@
+flowchart LR
+    UI[UI / BFF<br/>future 3rd parties]
+    Svc[Komodo services]
+
+    subgraph Public["Public Plane :7011 — hostile traffic posture"]
+        direction TB
+        PubChain["RequestID → Telemetry → RateLimiter →<br/>IPAccess → CORS → SecurityHeaders →<br/>Normalization → Sanitization → RuleValidation"]
+        PubRoutes["token · OTP · passkeys ·<br/>revoke · JWKS · health"]
+        PubChain --> PubRoutes
+        PubToken["user tokens<br/>sub = bare uuid, user aud<br/>scopes: otp:verified, …"]
+        PubRoutes --> PubToken
+    end
+
+    subgraph Private["Private Plane :7012 — VPC only"]
+        direction TB
+        PrivChain["RequestID → Telemetry → ClientType →<br/>Auth (bearer + scope)<br/>except /v1/token/validate"]
+        PrivRoutes["introspect · validate ·<br/>client registry · health"]
+        PrivChain --> PrivRoutes
+        PrivToken["M2M tokens<br/>scope: svc:{client_id}<br/>per-service aud, 1h TTL"]
+        PrivRoutes --> PrivToken
+    end
+
+    UI --> Public
+    Svc --> Public
+    Svc --> Private
+    PubToken -. "rejected: no svc: scope, wrong aud" .-x Private

@@ -67,24 +67,24 @@ func TestCommsReachable_Non2xx_ReturnsError(t *testing.T) {
 	}
 }
 
-func TestUserReachable_Returns2xx_Nil(t *testing.T) {
+func TestCustomerReachable_Returns2xx_Nil(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
-	if err := c.UserReachable(context.Background()); err != nil {
+	if err := c.CustomerReachable(context.Background()); err != nil {
 		t.Fatalf("expected nil error, got %v", err)
 	}
 }
 
-func TestUserReachable_EmptyBaseURL_ReturnsError(t *testing.T) {
+func TestCustomerReachable_EmptyBaseURL_ReturnsError(t *testing.T) {
 	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{})}
 
-	if err := c.UserReachable(context.Background()); err == nil {
-		t.Fatal("expected error when UserBaseURL is unconfigured, got nil")
+	if err := c.CustomerReachable(context.Background()); err == nil {
+		t.Fatal("expected error when CustomerBaseURL is unconfigured, got nil")
 	}
 }
 

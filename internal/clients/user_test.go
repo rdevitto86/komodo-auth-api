@@ -20,7 +20,7 @@ func TestGetUserCredentials_200_ParsesResponse(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	result, err := c.GetUserCredentials(context.Background(), "user@example.com", "token")
 	if err != nil {
@@ -40,7 +40,7 @@ func TestGetUserCredentials_404_ReturnsError(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	result, err := c.GetUserCredentials(context.Background(), "missing@example.com", "token")
 	if err == nil {
@@ -59,7 +59,7 @@ func TestGetUserCredentials_MalformedJSON_ReturnsError(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	result, err := c.GetUserCredentials(context.Background(), "user@example.com", "token")
 	if err == nil {
@@ -81,7 +81,7 @@ func TestGetUserCredentials_EmailIsURLEncoded(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	input := "user+tag@example.com"
 	_, err := c.GetUserCredentials(context.Background(), input, "token")
@@ -112,7 +112,7 @@ func TestGetUserByID_200_ParsesResponse(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	result, err := c.GetUserByID(context.Background(), "user-abc-123", "token")
 	if err != nil {
@@ -132,7 +132,7 @@ func TestGetUserByID_404_ReturnsError(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	result, err := c.GetUserByID(context.Background(), "missing-user", "token")
 	if err == nil {
@@ -149,7 +149,7 @@ func TestGetUserByID_500_ReturnsError(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	result, err := c.GetUserByID(context.Background(), "user-xyz", "token")
 	if err == nil {
@@ -168,7 +168,7 @@ func TestGetUserByID_MalformedJSON_ReturnsError(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	result, err := c.GetUserByID(context.Background(), "user-xyz", "token")
 	if err == nil {
@@ -195,7 +195,7 @@ func TestListPasskeyCredentials_200_ParsesCredentials(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	creds, err := c.ListPasskeyCredentials(context.Background(), "user-123", "token")
 	if err != nil {
@@ -212,7 +212,7 @@ func TestListPasskeyCredentials_500_ReturnsError(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	if _, err := c.ListPasskeyCredentials(context.Background(), "user-123", "token"); err == nil {
 		t.Fatal("expected error for 500 response")
@@ -227,7 +227,7 @@ func TestListPasskeyCredentials_MalformedJSON_ReturnsError(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	if _, err := c.ListPasskeyCredentials(context.Background(), "user-123", "token"); err == nil {
 		t.Fatal("expected error for malformed JSON")
@@ -244,7 +244,7 @@ func TestCreatePasskeyCredential_201_Succeeds(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	err := c.CreatePasskeyCredential(context.Background(), "user-123", "token", PasskeyCredentialDescriptor{
 		CredentialId: "abc",
@@ -264,7 +264,7 @@ func TestCreatePasskeyCredential_409_ReturnsError(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	if err := c.CreatePasskeyCredential(context.Background(), "user-123", "token", PasskeyCredentialDescriptor{CredentialId: "abc"}); err == nil {
 		t.Fatal("expected error for 409 response")
@@ -282,7 +282,7 @@ func TestUpdatePasskeyCredential_200_Succeeds(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	err := c.UpdatePasskeyCredential(context.Background(), "user-123", "token", PasskeyCredentialDescriptor{CredentialId: "cred-xyz"})
 	if err != nil {
@@ -302,7 +302,7 @@ func TestUpdatePasskeyCredential_404_ReturnsError(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: ts.URL}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: ts.URL}
 
 	if err := c.UpdatePasskeyCredential(context.Background(), "user-123", "token", PasskeyCredentialDescriptor{CredentialId: "cred-xyz"}); err == nil {
 		t.Fatal("expected error for 404 response")
@@ -310,7 +310,7 @@ func TestUpdatePasskeyCredential_404_ReturnsError(t *testing.T) {
 }
 
 func TestUpdatePasskeyCredential_MalformedURL_ReturnsError(t *testing.T) {
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: "http://[::1]:namedport"}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: "http://[::1]:namedport"}
 
 	err := c.UpdatePasskeyCredential(context.Background(), "user-123", "token", PasskeyCredentialDescriptor{CredentialId: "cred-xyz"})
 	if err == nil {
@@ -319,7 +319,7 @@ func TestUpdatePasskeyCredential_MalformedURL_ReturnsError(t *testing.T) {
 }
 
 func TestCreatePasskeyCredential_MalformedURL_ReturnsError(t *testing.T) {
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: "http://[::1]:namedport"}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: "http://[::1]:namedport"}
 
 	err := c.CreatePasskeyCredential(context.Background(), "user-123", "token", PasskeyCredentialDescriptor{CredentialId: "cred-xyz"})
 	if err == nil {
@@ -328,7 +328,7 @@ func TestCreatePasskeyCredential_MalformedURL_ReturnsError(t *testing.T) {
 }
 
 func TestGetUserByID_MalformedURL_ReturnsError(t *testing.T) {
-	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), UserBaseURL: "http://[::1]:namedport"}
+	c := &HttpClient{Client: sdkhttp.NewClient(sdkhttp.ClientConfig{}), CustomerBaseURL: "http://[::1]:namedport"}
 
 	_, err := c.GetUserByID(context.Background(), "user-123", "token")
 	if err == nil {

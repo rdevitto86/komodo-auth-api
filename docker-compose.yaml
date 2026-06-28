@@ -25,7 +25,7 @@ services:
       VERSION: ${VERSION:-dev}
       EVAL_RULES_PATH: /app/config/validation_rules.yaml
       BANNED_CUSTOMERS_TABLE: ${BANNED_TABLE:-komodo-banned-customers}
-      USER_API_PRIVATE_URL: ${USER_API_URL:-http://user-api-public:7052}
+      CUSTOMER_API_PRIVATE_URL: ${CUSTOMER_API_URL:-http://customer-api-public:7052}
       COMMUNICATIONS_API_URL: ${COMMS_API_URL:-http://communications-api:7081}
     ports:
       - "7011:7011"

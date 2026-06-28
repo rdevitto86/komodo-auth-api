@@ -150,7 +150,7 @@ func (s *Service) OTPVerifyHandler(wtr http.ResponseWriter, req *http.Request) {
 			}
 		}()
 		if s.HttpClient == nil {
-			credsCh <- credsRes{err: fmt.Errorf("user-api client not configured")}
+			credsCh <- credsRes{err: fmt.Errorf("customer-api client not configured")}
 			return
 		}
 

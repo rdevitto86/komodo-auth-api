@@ -486,7 +486,7 @@ func TestOAuthTokenHandler_Component_RefreshToken_BanCheck_LookupError_FailOpen(
 	refreshTok := makeUserRefreshToken(t, userUUID)
 
 	httpClient := &fakeHttpClient{
-		getUserByIDErr: fmt.Errorf("user-api unavailable"),
+		getUserByIDErr: fmt.Errorf("customer-api unavailable"),
 	}
 
 	svc := &Service{
@@ -866,7 +866,7 @@ func TestOAuthTokenHandler_Component_RefreshToken_GetUserByIDError_FailsOpen(t *
 	refreshTok := makeAZPRefreshToken(t, userUUID, "komodo-apis:user", "test-client")
 
 	httpClient := &fakeHttpClient{
-		getUserByIDErr: fmt.Errorf("user-api unavailable"),
+		getUserByIDErr: fmt.Errorf("customer-api unavailable"),
 	}
 
 	svc := &Service{
@@ -1370,7 +1370,7 @@ func TestOAuthTokenHandler_Integration_RefreshToken_ValidNonRevoked(t *testing.T
 	redisAddr := startRedisContainer(t)
 	cache := newCacheFromAddr(t, redisAddr)
 
-	uStub := userAPIStub(t, userUUID)
+	uStub := customerAPIStub(t, userUUID)
 	defer uStub.Close()
 	cStub := commsStub(t)
 	defer cStub.Close()

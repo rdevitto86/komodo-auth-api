@@ -149,14 +149,14 @@ Migrated all three specs to OpenAPI 3.1.2. `oapi-codegen` pinned to PR #2336 hea
 
 **Delivered (2026-06-16):**
 - Refresh-path banned check fixed: `GetUserByID(uuid)→email` client method; refresh discriminates user vs service by `svc:` scope; calls `IsBanned(email)` for users (fail-open)
-- `komodo-user-api` credentials contract verified; bare-UUID standard ratified
+- `komodo-customer-api` credentials contract verified; bare-UUID standard ratified
 - README and docs corrected to bare-UUID standard
 
 **Cross-repo items (tracked, not auth-api work):**
 - comms-api `otp` template store — blocked (comms-api has no template store)
 - ui/ snake_case type regen — zero blast radius (auth.ts is empty); tracked in `ui/TODO.md`
 - ui/ guest-OTP-login audit — forward constraint; tracked in `ui/TODO.md`
-- user-api `password_hash` `omitempty` — cosmetic, next user-api touch
+- customer-api `password_hash` `omitempty` — cosmetic, next customer-api touch
 
 ### Phase 5a — Passkey session refresh ✅
 
@@ -209,7 +209,7 @@ End-to-end readiness audit (code read + `build`/`vet`/component-`-race` + local 
 
 ## Phase 8a — Push to 9/9 + DEV 100% (in-repo; open)
 
-The in-repo delta to lift every readiness category to ~9/10 and DEV to ~100%, **excluding** external deps (comms-api template store, user-api contract, AWS edge infra / WAF / SG, KMS). Itemized + sequenced P0→P2 in `TODO.md` (Phase 8a); the ADR records only the headline correction:
+The in-repo delta to lift every readiness category to ~9/10 and DEV to ~100%, **excluding** external deps (comms-api template store, customer-api contract, AWS edge infra / WAF / SG, KMS). Itemized + sequenced P0→P2 in `TODO.md` (Phase 8a); the ADR records only the headline correction:
 
 - **OTP single-use is NOT SDK-blocked.** Phases 1 and the original "SDK capability finding" framed single-use redemption as blocked on a forge-sdk `GetDel`/`Eval` addition. That was wrong: an atomic `SetNX` redemption claim (already used for the OTP cooldown) closes the `Get→compare→Delete` double-redeem window in-process today. The same `SetNX` claim closes single-use passkey ceremony state. This reverses the Phase 1 "accepted SDK-blocked trade" — see the corrected Consequences bullet below.
 

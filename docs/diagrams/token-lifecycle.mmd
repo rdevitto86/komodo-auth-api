@@ -1,0 +1,17 @@
+stateDiagram-v2
+    [*] --> Issued: passkey assertion (access + refresh)
+    [*] --> AccessOnly: OTP verify (30-min access, no refresh)
+    AccessOnly --> [*]: 30 min elapsed
+
+    Issued --> Rotated: /v1/oauth/token grant_type=refresh_token
+    Rotated --> Issued: new access (30 min) + new refresh (30d sliding)
+
+    Issued --> Revoked: /v1/oauth/revoke or replay detected
+    Issued --> Expired: 30 days idle
+    Revoked --> [*]
+    Expired --> [*]
+
+    note right of Rotated
+        Old JTI added to Redis denylist with TTL = remaining lifetime.
+        Subsequent use of old refresh => replay, invalidate chain.
+    end note

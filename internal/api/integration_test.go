@@ -211,7 +211,7 @@ func readOTPDirect(t *testing.T, addr, email string) string {
 	return val
 }
 
-func userAPIStub(t *testing.T, userID string) *httptest.Server {
+func customerAPIStub(t *testing.T, userID string) *httptest.Server {
 	t.Helper()
 	mux := http.NewServeMux()
 	mux.HandleFunc("/v1/users/credentials", func(w http.ResponseWriter, r *http.Request) {
@@ -237,7 +237,7 @@ func commsStub(t *testing.T) *httptest.Server {
 func srvIntegration(t *testing.T, cache db.CacheClientCallers, banned clients.BannedChecker, userURL, commsURL string) *Service {
 	t.Helper()
 	httpClient, err := clients.New(clients.HttpClientConfig{
-		UserBaseURL:  userURL,
+		CustomerBaseURL:  userURL,
 		CommsBaseURL: commsURL,
 	})
 	if err != nil {
@@ -278,7 +278,7 @@ func TestOTPRequestAndVerify_Integration(t *testing.T) {
 	const testEmail = "integration-otp@example.com"
 	const testUserID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
 
-	uStub := userAPIStub(t, testUserID)
+	uStub := customerAPIStub(t, testUserID)
 	defer uStub.Close()
 	cStub := commsStub(t)
 	defer cStub.Close()
@@ -320,7 +320,7 @@ func TestClientCredentialsAndIntrospect_Integration(t *testing.T) {
 	redisAddr := startRedisContainer(t)
 	cache := newCacheFromAddr(t, redisAddr)
 
-	uStub := userAPIStub(t, "b2c3d4e5-f6a7-8901-bcde-f01234567891")
+	uStub := customerAPIStub(t, "b2c3d4e5-f6a7-8901-bcde-f01234567891")
 	defer uStub.Close()
 	cStub := commsStub(t)
 	defer cStub.Close()
@@ -366,7 +366,7 @@ func TestRevokeAndIntrospect_Integration(t *testing.T) {
 	redisAddr := startRedisContainer(t)
 	cache := newCacheFromAddr(t, redisAddr)
 
-	uStub := userAPIStub(t, "c3d4e5f6-a7b8-9012-cdef-012345678912")
+	uStub := customerAPIStub(t, "c3d4e5f6-a7b8-9012-cdef-012345678912")
 	defer uStub.Close()
 	cStub := commsStub(t)
 	defer cStub.Close()
@@ -415,7 +415,7 @@ func TestJWKSFetch_Integration(t *testing.T) {
 	redisAddr := startRedisContainer(t)
 	cache := newCacheFromAddr(t, redisAddr)
 
-	uStub := userAPIStub(t, "d4e5f6a7-b8c9-0123-def0-123456789013")
+	uStub := customerAPIStub(t, "d4e5f6a7-b8c9-0123-def0-123456789013")
 	defer uStub.Close()
 	cStub := commsStub(t)
 	defer cStub.Close()
@@ -456,7 +456,7 @@ func TestBannedEmail_OTPRequest_Integration(t *testing.T) {
 
 	banned := newForgeBannedChecker(t, ls.endpoint)
 
-	uStub := userAPIStub(t, "e5f6a7b8-c9d0-1234-ef01-234567890124")
+	uStub := customerAPIStub(t, "e5f6a7b8-c9d0-1234-ef01-234567890124")
 	defer uStub.Close()
 	cStub := commsStub(t)
 	defer cStub.Close()

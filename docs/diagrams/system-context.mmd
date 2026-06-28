@@ -1,0 +1,27 @@
+flowchart TD
+    Internet([Internet])
+    CF[CloudFront + WAF<br/>bot · rate · geo rules]
+    BFF[SvelteKit UI / BFF]
+    Pub["auth-api public :7011<br/>ECS Fargate (deploy/cdk/)"]
+    Priv["auth-api private :7012<br/>VPC only"]
+    SM[(Secrets Manager<br/>JWT keyset · client registry)]
+    Redis[(ElastiCache Redis<br/>OTP · challenges · JTI denylist)]
+    DDB[(DynamoDB<br/>banned customers)]
+    Customer[customer-api<br/>identity · passkey creds]
+    Comms[comms-api<br/>OTP email delivery]
+    Services[other Komodo services<br/>verify-only via JWKSVerifier]
+
+    Internet --> CF --> BFF
+    BFF -->|"/v1/oauth/token · /v1/otp/* · /v1/passkeys/*<br/>/.well-known/jwks.json"| Pub
+    Pub <-. one image, two binaries .-> Priv
+    Services -->|"client_credentials (WithServiceAuth)"| Pub
+    Services -->|introspect · validate| Priv
+    Services -. JWKS fetch (cached by kid) .-> Pub
+    Pub --> SM
+    Pub --> Redis
+    Pub --> DDB
+    Pub --> Customer
+    Pub --> Comms
+    Priv --> SM
+    Priv --> Redis
+    Priv --> Customer

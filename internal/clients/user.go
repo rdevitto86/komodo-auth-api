@@ -40,7 +40,7 @@ type PasskeyCredentialStore interface {
 }
 
 func (c *HttpClient) GetUserCredentials(ctx context.Context, email, bearerToken string) (*usermodels.CredentialsResponse, error) {
-	url := c.UserBaseURL + usermodels.PathCredentials + "?email=" + url.QueryEscape(email)
+	url := c.CustomerBaseURL + usermodels.PathCredentials + "?email=" + url.QueryEscape(email)
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -73,7 +73,7 @@ func (c *HttpClient) GetUserCredentials(ctx context.Context, email, bearerToken 
 }
 
 func (c *HttpClient) GetUserByID(ctx context.Context, userID, bearerToken string) (*usermodels.User, error) {
-	url := c.UserBaseURL + fmt.Sprintf(pathUserFmt, userID)
+	url := c.CustomerBaseURL + fmt.Sprintf(pathUserFmt, userID)
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -106,7 +106,7 @@ func (c *HttpClient) GetUserByID(ctx context.Context, userID, bearerToken string
 }
 
 func (c *HttpClient) ListPasskeyCredentials(ctx context.Context, userID, bearerToken string) ([]PasskeyCredentialDescriptor, error) {
-	url := c.UserBaseURL + fmt.Sprintf(pathUserPasskeysFmt, userID)
+	url := c.CustomerBaseURL + fmt.Sprintf(pathUserPasskeysFmt, userID)
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -141,7 +141,7 @@ func (c *HttpClient) ListPasskeyCredentials(ctx context.Context, userID, bearerT
 }
 
 func (c *HttpClient) CreatePasskeyCredential(ctx context.Context, userID, bearerToken string, cred PasskeyCredentialDescriptor) error {
-	url := c.UserBaseURL + fmt.Sprintf(pathUserPasskeysFmt, userID)
+	url := c.CustomerBaseURL + fmt.Sprintf(pathUserPasskeysFmt, userID)
 
 	cred.CreatedAt = nil
 	cred.LastUsedAt = nil
@@ -178,7 +178,7 @@ func (c *HttpClient) CreatePasskeyCredential(ctx context.Context, userID, bearer
 }
 
 func (c *HttpClient) UpdatePasskeyCredential(ctx context.Context, userID, bearerToken string, cred PasskeyCredentialDescriptor) error {
-	url := c.UserBaseURL + fmt.Sprintf(pathUserPasskeyFmt, userID, cred.CredentialId)
+	url := c.CustomerBaseURL + fmt.Sprintf(pathUserPasskeyFmt, userID, cred.CredentialId)
 
 	body, err := json.Marshal(cred)
 	if err != nil {

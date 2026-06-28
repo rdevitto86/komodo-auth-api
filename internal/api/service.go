@@ -31,7 +31,7 @@ type TokenAuthority interface {
 
 type HttpReachabilityCheckers interface {
 	CommsReachable(ctx context.Context) error
-	UserReachable(ctx context.Context) error
+	CustomerReachable(ctx context.Context) error
 }
 
 type TableReachabilityChecker interface {

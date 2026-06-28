@@ -1,0 +1,12 @@
+stateDiagram-v2
+    [*] --> Active: bootstrap (loaded from SM secret)
+    Active --> Previous: rotation (PutSecretValue, Watch fires)
+    Previous --> [*]: overlap window expires (>= longest live token TTL)
+
+    Active: signs new JWTs (active kid), published in JWKS
+    Previous: verify-only, still in JWKS for cached tokens
+
+    note right of Active
+        Emergency revocation does not rotate the key.
+        It uses the JTI denylist instead.
+    end note
